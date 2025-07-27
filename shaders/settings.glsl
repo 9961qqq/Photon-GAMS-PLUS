@@ -1016,6 +1016,8 @@ const float wetnessHalflife         = 70.0;
   #define ENCHANTMENT_GLINT_G 1.0 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.40 0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.50 0.51 0.52 0.53 0.54 0.55 0.56 0.57 0.58 0.59 0.60 0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69 0.70 0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.80 0.81 0.82 0.83 0.84 0.85 0.86 0.87 0.88 0.89 0.90 0.91 0.92 0.93 0.94 0.95 0.96 0.97 0.98 0.99 1.00]
   #define ENCHANTMENT_GLINT_B 1.0 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.40 0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.50 0.51 0.52 0.53 0.54 0.55 0.56 0.57 0.58 0.59 0.60 0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69 0.70 0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.80 0.81 0.82 0.83 0.84 0.85 0.86 0.87 0.88 0.89 0.90 0.91 0.92 0.93 0.94 0.95 0.96 0.97 0.98 0.99 1.00]
 
+  #define USE_SEPARATE_ENTITY_DRAWS 
+
   #define DAYLIGHT_CYCLE
 
 //#define PHYSICS_MOD_OCEAN
@@ -1185,92 +1187,100 @@ const float wetnessHalflife         = 70.0;
 // shaders.properties) so these are "decoy" usages of various settings so
 // that the parser detects them
 
-  #ifdef VANILLA_AO
-  #endif
+#ifdef VANILLA_AO
+#endif
 
-  #ifdef LENS_FLARE
-  #endif
+#ifdef LENS_FLARE
+#endif
 
 //  #ifdef RAIN_LENS
 //  #endif
 
-  #ifdef CAVE_FOG
-  #endif
+#ifdef CAVE_FOG
+#endif
 
-  #ifdef ENTITY_SHADOWS
-  #endif
+#ifdef ENTITY_SHADOWS
+#endif
 
-  #ifdef BLOCK_ENTITY_SHADOWS
-  #endif
+#ifdef BLOCK_ENTITY_SHADOWS
+#endif
 
-  #ifdef DOF
-  #endif
+#ifdef DOF
+#endif
 
-  #ifdef MOTION_BLUR
-  #endif
+#ifdef MOTION_BLUR
+#endif
 
-  #ifdef SSR_ROUGHNESS_SUPPORT
-  #endif
+#ifdef SSR_ROUGHNESS_SUPPORT
+#endif
 
-  #ifdef FANCY_NETHER_PORTAL
-  #endif
+#ifdef FANCY_NETHER_PORTAL
+#endif
 
-  #ifdef PURKINJE_SHIFT
-  #endif
+#ifdef PURKINJE_SHIFT
+#endif
 
-  #ifdef COLORED_LIGHTS
-  #endif
+#ifdef COLORED_LIGHTS
+#endif
 
-  #ifdef MOON_PHASE_AFFECTS_BRIGHTNESS
-  #endif
+#ifdef MOON_PHASE_AFFECTS_BRIGHTNESS
+#endif
 
-  #ifdef CLOUDS_SINGLE_LAYER
-  #endif
+#ifdef CLOUDS_SINGLE_LAYER
+#endif
 
-  #ifdef TONEMAP_PLOT
-  #endif
+#ifdef TONEMAP_PLOT
+#endif
 
-  #ifdef AGX_HIGHER_PRECISION
-  #endif
+#ifdef AGX_HIGHER_PRECISION
+#endif
 
-  #ifdef ACES_PFE_PRESET
-  #endif
+#ifdef ACES_PFE_PRESET
+#endif
 
-  #ifdef PHYSICS_MOD_OCEAN
-  #endif
+#ifdef PHYSICS_MOD_OCEAN
+#endif
 
-  #ifdef FOG_CLOUD_SHADOWS
-  #endif
+#ifdef FOG_CLOUD_SHADOWS
+#endif
 
-  #ifdef WORLD_CURVATURE
-  #endif
-  
-  #ifdef OVERWORLD_CURVATURE
-  #endif
-  
-  #ifdef NETHER_CURVATURE
-  #endif
-  
-  #ifdef END_CURVATURE
-  #endif
+#ifdef WORLD_CURVATURE
+#endif
 
-  #ifdef DISABLE_FRUSTUM_CULLING
-  #endif
+#ifdef OVERWORLD_CURVATURE
+#endif
 
-  #ifdef GLOWING_FLOWERS
-  #endif
+#ifdef NETHER_CURVATURE
+#endif
 
-  #ifdef END_COLORED_LIGHTING
-  #endif
+#ifdef END_CURVATURE
+#endif
 
-  #ifdef COLORED_CANDLES
-  #endif
+#ifdef DISABLE_FRUSTUM_CULLING
+#endif
 
-  #ifdef CUSTOM_SKY
-  #endif
+#ifdef GLOWING_FLOWERS
+#endif
 
-  #ifdef GALAXY_GAMS
-  #endif
+#ifdef END_COLORED_LIGHTING
+#endif
 
-  #ifdef BLACK_NIGHT_SKY
-  #endif
+#ifdef COLORED_CANDLES
+#endif
+
+#ifdef CUSTOM_SKY
+#endif
+
+#ifdef GALAXY_GAMS
+#endif
+
+#ifdef BLACK_NIGHT_SKY
+#endif
+
+#ifdef USE_SEPARATE_ENTITY_DRAWS
+#endif
+
+// Not available on OF
+#ifndef IS_IRIS
+    #undef USE_SEPARATE_ENTITY_DRAWS
+#endif
