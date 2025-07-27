@@ -129,7 +129,7 @@ vec3 get_diffuse_lighting(
 	vec3 sss = sss_approx(material.albedo, material.sss_amount, material.sheen_amount, mix(sss_depth, 0.0, shadow_distance_fade), LoV, shadows.x);
 
 	// Adjust SSS outside of shadow distance
-	sss *= mix(1.0, (ao + pi * ambient_sss) * (clamp01(NoL) * 0.8 + 0.2), clamp01(shadow_distance_fade));
+	sss *= mix(1.0, ao * (clamp01(NoL) * 0.9 + 0.1), clamp01(shadow_distance_fade));
 
 	#ifdef AO_IN_SUNLIGHT
 	diffuse *= sqr(ao);
