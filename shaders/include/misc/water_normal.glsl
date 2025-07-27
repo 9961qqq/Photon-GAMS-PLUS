@@ -24,7 +24,7 @@ void water_waves_setup(
 ) {
 	const float wave_speed_still   = 0.5 * WATER_WAVE_SPEED_STILL;
 	const float wave_speed_flowing = 0.50 * WATER_WAVE_SPEED_FLOWING;
-	const float wave_angle         = 30.0 * degree;
+	const float wave_angle         = WATER_WAVE_ANGLE * degree;
 
 	t = (flowing_water ? wave_speed_flowing : wave_speed_still) * frameTimeCounter;
 
