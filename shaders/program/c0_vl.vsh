@@ -25,6 +25,7 @@ flat out mat2x3 air_fog_coeff[2];
 // ------------
 
 uniform sampler2D colortex4; // Sky map, lighting color palette
+uniform sampler2D colortex9; // Sky SH
 
 uniform float rainStrength;
 uniform float sunAngle;
@@ -125,7 +126,11 @@ void main() {
 
 	int lighting_color_x = SKY_MAP_LIGHT_X;
 	light_color   = texelFetch(colortex4, ivec2(lighting_color_x, 0), 0).rgb;
+	#if defined WORLD_OVERWORLD && defined SH_SKYLIGHT
+	ambient_color = texelFetch(colortex9, ivec2(9, 0), 0).rgb;
+#else
 	ambient_color = texelFetch(colortex4, ivec2(lighting_color_x, 1), 0).rgb;
+#endif
 
 #if defined WORLD_OVERWORLD
 	mat2x3 rayleigh_coeff = air_fog_rayleigh_coeff(), mie_coeff = air_fog_mie_coeff();
