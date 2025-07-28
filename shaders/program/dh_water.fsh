@@ -32,6 +32,11 @@ flat in vec2 atlas_tile_offset;
 flat in vec2 atlas_tile_scale;
 #endif
 
+#if defined WORLD_OVERWORLD 
+#include "/include/fog/overworld/coeff_struct.glsl"
+flat in AirFogCoefficients air_fog_coeff;
+#endif
+
 // ------------
 //   Uniforms
 // ------------
@@ -171,12 +176,12 @@ void main() {
 #endif
 
 	// Encode gbuffer data
-	
+
 	gbuffer_data.x  = pack_unorm_2x8(tint.rg);
 	gbuffer_data.y  = pack_unorm_2x8(tint.b, clamp01(((is_water == 1) ? rcp(255.0) : 0.0)));
 	gbuffer_data.z  = pack_unorm_2x8(encode_unit_vector(normal));
 	gbuffer_data.w  = pack_unorm_2x8(dither_8bit(light_levels, 0.5));
-	
+
 	if (is_water == 1.0) {
 		fragment_color = vec4(0.0);
 		return;
@@ -270,3 +275,4 @@ void main() {
 
 	fragment_color.a *= border_fog(scene_pos, world_dir);
 }
+
