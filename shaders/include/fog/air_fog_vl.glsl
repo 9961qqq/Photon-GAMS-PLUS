@@ -61,7 +61,7 @@ vec2 air_fog_density(vec3 world_pos) {
 	
 #endif
 
-	return density;
+	return density * (0.5 * OVERWORLD_FOG_INTENSITY);
 }
 
 mat2x3 raymarch_air_fog(vec3 world_start_pos, vec3 world_end_pos, bool sky, float skylight, float dither) {
