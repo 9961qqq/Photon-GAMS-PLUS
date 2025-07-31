@@ -12,6 +12,10 @@
 #include "/include/utility/sampling.glsl"
 #include "/include/utility/space_conversion.glsl"
 
+#if defined WORLD_OVERWORLD 
+#include "/include/fog/overworld/analytic.glsl"
+#endif
+
 // ----------------------
 //   Specular Highlight
 // ----------------------
@@ -27,7 +31,7 @@ float get_NoH_squared(
 	float radius_cos = cos(light_radius);
 	float radius_tan = tan(light_radius);
 
-	// Early out if R falls within the disc
+	// Early out if R falls within the disc​
 	float RoL = 2.0 * NoL * NoV - LoV;
 	if (RoL >= radius_cos) return 1.0;
 
@@ -35,10 +39,10 @@ float get_NoH_squared(
 	float not_r = r_over_length_t * (NoV - RoL * NoL);
 	float vot_r = r_over_length_t * (2.0 * NoV * NoV - 1.0 - RoL * LoV);
 
-	// Calculate dot(cross(N, L), V). This could already be calculated and available.
+	// Calculate dot(cross(N, L), V). This could already be calculated and available.​
 	float triple = sqrt(clamp01(1.0 - NoL * NoL - NoV * NoV - LoV * LoV + 2.0 * NoL * NoV * LoV));
 
-	// Do one Newton iteration to improve the bent light Direction
+	// Do one Newton iteration to improve the bent light Direction​
 	float NoB_r = r_over_length_t * triple, VoB_r = r_over_length_t * (2.0 * triple * NoV);
 	float NoL_vt_r = NoL * radius_cos + NoV + not_r, LoV_vt_r = LoV * radius_cos + 1.0 + vot_r;
 	float p = NoB_r * LoV_vt_r, q = NoL_vt_r * LoV_vt_r, s = VoB_r * NoL_vt_r;
@@ -48,10 +52,10 @@ float get_NoH_squared(
 	float two_x_1 = 2.0 * x_num / (x_denom * x_denom + x_num * x_num);
 	float sin_theta = two_x_1 * x_denom;
 	float cos_theta = 1.0 - two_x_1 * x_num;
-	not_r = cos_theta * not_r + sin_theta * NoB_r; // use new T to update not_r
-	vot_r = cos_theta * vot_r + sin_theta * VoB_r; // use new T to update vot_r
+	not_r = cos_theta * not_r + sin_theta * NoB_r; // use new T to update not_r​
+	vot_r = cos_theta * vot_r + sin_theta * VoB_r; // use new T to update vot_r​
 
-	// Calculate (N.H)^2 based on the bent light direction
+	// Calculate (N.H)^2 based on the bent light direction​
 	float new_NoL = NoL * radius_cos + not_r;
 	float new_LoV = LoV * radius_cos + vot_r;
 	float NoH = NoV + new_NoL;
@@ -173,6 +177,7 @@ vec3 get_sky_reflection(vec3 ray_dir, float skylight) {
 vec3 trace_specular_ray(
 	vec3 screen_pos,
 	vec3 view_pos,
+	vec3 world_pos,
 	vec3 ray_dir,
 	float dither,
 	float skylight,
@@ -215,14 +220,28 @@ vec3 trace_specular_ray(
 		float border_attenuation = (hit_pos.x * hit_pos.y - hit_pos.x) * (hit_pos.x * hit_pos.y - hit_pos.y);
 		      border_attenuation = dampen(linear_step(0.0, border_attenuation_factor, border_attenuation));
 
-		vec3 hit_pos_prev = reproject(hit_pos);
+		vec3 hit_pos_view = screen_to_view_space(combined_projection_matrix_inverse, hit_pos, false);
+		vec3 hit_pos_scene = view_to_scene_space(hit_pos_view);
+
+		vec3 hit_pos_prev = reproject_scene_space(hit_pos_scene, false, false);
 		if (clamp01(hit_pos_prev) != hit_pos_prev) return sky_reflection;
 
 		vec3 reflection = textureLod(colortex5, hit_pos_prev.xy, mip_level).rgb;
-		
-		// Remove fog scattering from reflection
+
 		vec3 fog_scattering_previous = texture(colortex7, hit_pos_prev.xy).rgb;
-		reflection = max0(reflection - fog_scattering_previous);
+
+		#if defined WORLD_OVERWORLD
+			// Apply analytic fog in reflection
+			mat2x3 analytic_fog = air_fog_analytic(
+				world_pos,
+				hit_pos_scene + cameraPosition,
+				false,
+				eye_skylight
+			);
+
+			reflection = max0(reflection - fog_scattering_previous);
+			reflection = reflection * analytic_fog[1] + analytic_fog[0];
+		#endif
 
 		return mix(sky_reflection, reflection, border_attenuation);
 	} else {
@@ -235,6 +254,7 @@ vec3 get_specular_reflections(
 	mat3 tbn_matrix,
 	vec3 screen_pos,
 	vec3 view_pos,
+	vec3 world_pos,
 	vec3 normal,
 	vec3 flat_normal,
 	vec3 world_dir,
@@ -269,7 +289,7 @@ vec3 get_specular_reflections(
 			float NoL = dot(normal, ray_dir);
 			if (NoL < eps) continue;
 
-			vec3 radiance = trace_specular_ray(screen_pos, view_pos, ray_dir, dither, skylight, SSR_INTERSECTION_STEPS_ROUGH, SSR_REFINEMENT_STEPS, int(mip_level));
+			vec3 radiance = trace_specular_ray(screen_pos, view_pos, world_pos, ray_dir, dither, skylight, SSR_INTERSECTION_STEPS_ROUGH, SSR_REFINEMENT_STEPS, int(mip_level));
 
 			float NoV = max(1e-2, dot(flat_normal, -world_dir));
 			float MoV = max(1e-2, dot(microfacet_normal, -world_dir));
@@ -322,7 +342,7 @@ vec3 get_specular_reflections(
 	float v1 = v1_smith_ggx(NoV, alpha_squared);
 	float v2 = v2_smith_ggx(NoL, NoV, alpha_squared);
 
-	vec3 reflection  = trace_specular_ray(screen_pos, view_pos, ray_dir, dither, skylight, SSR_INTERSECTION_STEPS_SMOOTH, SSR_REFINEMENT_STEPS, 0);
+	vec3 reflection  = trace_specular_ray(screen_pos, view_pos, world_pos, ray_dir, dither, skylight, SSR_INTERSECTION_STEPS_SMOOTH, SSR_REFINEMENT_STEPS, 0);
 	     reflection *= albedo_tint * fresnel;
 
 	if (any(isnan(reflection))) reflection = vec3(0.0); // don't reflect NaNs

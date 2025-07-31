@@ -35,6 +35,9 @@ flat in vec3 sky_sh[9];
 #else
 flat in mat3 sky_samples;
 #endif
+
+#include "/include/fog/overworld/coeff_struct.glsl"
+flat in AirFogCoefficients air_fog_coeff;
 #endif
 
 // ------------
@@ -285,8 +288,8 @@ void main() {
 		// Apply clouds and aurora
 		scene_color = scene_color * clouds_and_aurora.w + clouds_and_aurora.xyz;
 
-		// Apply blocky clouds
-#if defined WORLD_OVERWORLD && defined BLOCKY_CLOUDS
+		// Apply blocky clouds 
+#if defined WORLD_OVERWORLD && defined BLOCKY_CLOUDS 
 		scene_color = scene_color * blocky_clouds.w + blocky_clouds.xyz;
 #endif
 
@@ -463,6 +466,7 @@ void main() {
 				tbn,
 				vec3(uv, depth),
 				view_pos,
+				world_pos,
 				normal,
 				flat_normal,
 				world_dir,
@@ -517,4 +521,3 @@ void main() {
 		scene_color = purkinje_shift(scene_color, light_levels);
 	}
 }
-

@@ -5,7 +5,7 @@
 
 const ivec2 cloud_shadow_res = ivec2(CLOUD_SHADOW_RESOLUTION);
 
-const float cloud_shadow_extent = 256.0;
+const float cloud_shadow_extent = 256.0 / (CLOUDS_SCALE / 10.0);
 
 vec2 shadow_view_to_cloud_shadow_space(vec3 shadow_view_pos) {
 	vec2 cloud_shadow_pos  = shadow_view_pos.xy / cloud_shadow_extent;
@@ -41,7 +41,7 @@ float get_cloud_shadows(sampler2D cloud_shadow_map, vec3 scene_pos) {
 	//  - the fragment is above the cloud layer
 	//  - the sun is near the horizon
 	float altitude_fraction = (scene_pos.y + eyeAltitude - SEA_LEVEL) * (CLOUDS_SCALE / CLOUDS_CUMULUS_THICKNESS) - CLOUDS_CUMULUS_ALTITUDE;
-	float cloud_shadow_fade = smoothstep(0.1, 0.2, light_dir.y);
+	float cloud_shadow_fade = smoothstep(0.1, 0.3, light_dir.y);
 
 	float cloud_shadow = bicubic_filter(cloud_shadow_map, cloud_shadow_pos).x;
 	      cloud_shadow = cloud_shadow * cloud_shadow_fade + (1.0 - cloud_shadow_fade);
@@ -103,5 +103,4 @@ float render_cloud_shadow_map(vec2 uv) {
 	return shadow;
 }
 #endif
-
 #endif // INCLUDE_LIGHTING_CLOUD_SHADOWS
