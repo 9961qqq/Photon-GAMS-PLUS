@@ -1,4 +1,41 @@
+// Enable half-precision floating point types
+
+#ifdef USE_HALF_PRECISION_FP
+	#if defined MC_GL_AMD_gpu_shader_half_float 
+		#extension GL_AMD_gpu_shader_half_float : enable
+		#define HAS_F16
+	#elif defined MC_GL_NV_gpu_shader5 
+		#extension GL_NV_gpu_shader5 : enable
+		#define HAS_F16
+	#endif
+#endif
+
+#ifdef HAS_F16 
+	#define f16       float16_t
+#else 
+	#define f16       float
+	#define f16vec2   vec2 
+	#define f16vec3   vec3 
+	#define f16vec4   vec4 
+	#define f16mat2   mat2 
+	#define f16mat2x2 mat2x2
+	#define f16mat2x3 mat2x3
+	#define f16mat2x4 mat2x4
+	#define f16mat3   mat3 
+	#define f16mat3x2 mat3x2
+	#define f16mat3x3 mat3x3
+	#define f16mat3x4 mat3x4
+	#define f16mat4   mat4 
+	#define f16mat4x2 mat4x2
+	#define f16mat4x3 mat4x3
+	#define f16mat4x4 mat4x4
+#endif
+
+// Settings
+
 #include "/settings.glsl"
+ 
+// Compatibility fixes
 
 #if MC_VERSION < 11700
 	#define gtexture tex
@@ -76,6 +113,9 @@ vec3  sdiv(vec3 a, vec3 b)   { return vec3(sdiv(a.x, b.x), sdiv(a.y, b.y), sdiv(
 float linear_step(float edge0, float edge1, float x) {
 	return clamp01((x - edge0) / (edge1 - edge0));
 }
+float linear_step_unclamped(float edge0, float edge1, float x) {
+	return (x - edge0) / (edge1 - edge0);
+}
 
 vec2 linear_step(vec2 edge0, vec2 edge1, vec2 x) {
 	return clamp01((x - edge0) / (edge1 - edge0));
@@ -104,6 +144,9 @@ vec3 lift(vec3 x, float amount) {
 // Smoothing function used by smoothstep
 // Zero derivative at zero and one
 float cubic_smooth(float x) {
+	return sqr(x) * (3.0 - 2.0 * x);
+}
+vec2 cubic_smooth(vec2 x) {
 	return sqr(x) * (3.0 - 2.0 * x);
 }
 

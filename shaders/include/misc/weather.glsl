@@ -5,6 +5,70 @@
 #include "/include/utility/color.glsl"
 #include "/include/utility/random.glsl"
 
+struct Weather {
+	float temperature; // [0, 1]
+	float humidity;    // [0, 1]
+	float wind;        // [0, 1]
+};
+
+Weather get_weather() {
+	Weather weather;
+
+// 	const float temperature_variation_speed = golden_ratio * rcp(600.0) * WEATHER_TEMPERATURE_VARIATION_SPEED;
+// 	const float humidity_variation_speed    = golden_ratio * rcp(600.0) * WEATHER_HUMIDITY_VARIATION_SPEED;
+// 	const float wind_variation_speed        = golden_ratio * rcp(600.0) * WEATHER_WIND_VARIATION_SPEED;
+// 	const float random_temperature_min      = 0.0;
+// 	const float random_temperature_max      = 1.0;
+// 	const float random_humidity_min         = 0.2;
+// 	const float random_humidity_max         = 0.8;
+// 	const float random_wind_min             = 0.0;
+// 	const float random_wind_max             = 1.0;
+// 	const float biome_temperature_influence = 0.1;
+// 	const float biome_humidity_influence    = 0.1;
+
+// #ifdef RANDOM_WEATHER_VARIATION
+// 	weather.temperature = mix(
+// 		random_temperature_min,
+// 		random_temperature_max,
+// 		noise_1d(world_age * temperature_variation_speed)
+// 	);
+// 	weather.humidity = mix(
+// 		random_humidity_min,
+// 		random_humidity_max,
+// 		noise_1d(world_age * humidity_variation_speed + 41.618)
+// 	);
+// 	weather.wind = mix(
+// 		random_wind_min,
+// 		random_wind_max,
+// 		noise_1d(world_age * wind_variation_speed + 83.236)
+// 	);
+
+// 	// Time-of-day-based variation 
+// 	weather.temperature -= 0.2 * time_sunrise + 0.2 * time_midnight;
+// #endif
+
+// #ifdef BIOME_WEATHER_VARIATION
+// 	weather.temperature += (biome_temperature - 0.6) * biome_temperature_influence;
+// 	weather.humidity += (biome_humidity + 0.2) * biome_humidity_influence;
+// #endif
+
+// 	// Weather-based variation
+// 	weather.humidity += wetness;
+// 	weather.wind += 0.33 * wetness;
+
+// 	// User adjustment 
+// 	weather.temperature += WEATHER_TEMPERATURE_BIAS;
+// 	weather.humidity += WEATHER_HUMIDITY_BIAS;
+// 	weather.wind += WEATHER_WIND_BIAS;
+
+// 	// Saturate 
+// 	weather.temperature = clamp01(weather.temperature);
+// 	weather.humidity = clamp01(weather.humidity);
+// 	weather.wind = clamp01(weather.wind);
+
+	return weather;
+}
+
 #define daily_weather_blend(weather_function) mix(weather_function(worldDay), weather_function(worldDay + 1), weather_mix_factor())
 
 uint weather_day_index(int world_day) {
@@ -345,6 +409,10 @@ DailyWeatherVariation get_daily_weather_variation() {
 	daily_weather_variation.aurora_colors = get_aurora_colors();
 
 	return daily_weather_variation;
+}
+
+float get_rainbow_amount(Weather weather) {
+	return max(wetness, 0.5 * linear_step(0.6, 1.0, weather.humidity)) * float(1.0 - rainStrength);
 }
 
 #endif // INCLUDE_MISC_WEATHER

@@ -4,7 +4,13 @@
   Photon Shader by SixthSurge
 
   program/c1_blend_layers
-  Apply volumetric fog
+  Combine:
+   - Solid layer
+   - Translucent layer
+   - Fog 
+   - Clouds
+   - DH water 
+   - Rainbow
 
 --------------------------------------------------------------------------------
 */
@@ -29,6 +35,8 @@ flat in vec3 light_color;
 #ifdef WORLD_OVERWORLD 
 #include "/include/fog/overworld/coeff_struct.glsl"
 flat in AirFogCoefficients air_fog_coeff;
+
+flat in float rainbow_amount;
 #endif
 
 // ------------
@@ -111,12 +119,17 @@ uniform float time_noon;
 uniform float time_sunset;
 uniform float time_midnight;
 
+/*
+const bool colortex11MipmapEnabled = true;
+*/
+
 // ------------
 //   Includes
 // ------------
 
 #define TEMPORAL_REPROJECTION
 
+#include "/include/sky/rainbow.glsl"
 #include "/include/fog/simple_fog.glsl"
 #include "/include/misc/distant_horizons.glsl"
 #include "/include/misc/lightning_flash.glsl"
@@ -266,6 +279,14 @@ void main() {
 #endif
 
 	fragment_color = texture(colortex0, refracted_uv * taau_render_scale).rgb;
+
+	// Apply rainbows
+
+	// fragment_color = draw_rainbows(
+	// 	fragment_color, 
+	// 	direction_world, 
+	// 	min(is_sky ? 1e6 : view_distance, mix(clouds_apparent_distance, 1e6, linear_step(1.0, 0.95, clouds_and_aurora.w)))
+	// );
 
 	// Draw DH water
 
