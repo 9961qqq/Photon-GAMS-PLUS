@@ -21,7 +21,7 @@ struct CloudsResult {
 const CloudsResult clouds_not_hit = CloudsResult(
 	vec4(0.0),
 	1.0,
-	1e6
+	1e5
 );
 
 // ----
