@@ -165,7 +165,8 @@ CloudsResult draw_cumulus_congestus_clouds(
 
 	if (dists.y < 0.0                                             // volume not intersected
 	 || planet_intersected && r < clouds_cumulus_congestus_radius // planet blocking clouds
-	 || terrain_intersected                                       // terrain blocking clouds
+	 || terrain_intersected
+	 || distance_to_terrain > 0.0    // terrain blocking clouds
 	) { return clouds_not_hit; }
 
 	float ray_length = (distance_to_terrain >= 0.0) ? distance_to_terrain : dists.y;

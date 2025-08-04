@@ -202,7 +202,7 @@ CloudsResult draw_cirrus_clouds(
 	vec2 dists = intersect_sphere(air_viewer_pos, ray_dir, clouds_cirrus_radius);
 	bool planet_intersected = intersect_sphere(air_viewer_pos, ray_dir, min(r - 10.0, planet_radius)).y >= 0.0;
 	float distance_to_sphere = (r < clouds_cirrus_radius) ? dists.y : dists.x;
-	bool terrain_intersected = distance_to_terrain >= 0.0 && (r < clouds_cirrus_radius && distance_to_terrain * CLOUDS_SCALE < dists.y || (distance_to_terrain < distance_to_sphere));
+	bool terrain_intersected = distance_to_terrain >= 0.0 && r < clouds_cirrus_radius && distance_to_terrain < dists.y;
 
 	if (dists.y < 0.0                                  // sphere not intersected
 	 || planet_intersected && r < clouds_cirrus_radius // planet blocking clouds
