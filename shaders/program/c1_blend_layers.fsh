@@ -166,7 +166,8 @@ vec3 blend_layers_with_fog(
 			front_position_world, 
 			back_position_world, 
 			is_sky,
-			eye_skylight
+			eye_skylight,
+			1.0
 		);
 
 		background_color = background_color * analytic_fog[1] + analytic_fog[0];
@@ -419,7 +420,8 @@ void main() {
 			cameraPosition,
 			front_position_world,
 			is_sky,
-			eye_skylight
+			eye_skylight,
+			1.0
 		);
 
 		fragment_color *= analytic_fog[1];
