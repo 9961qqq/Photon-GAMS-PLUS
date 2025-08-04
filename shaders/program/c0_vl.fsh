@@ -78,6 +78,7 @@ uniform float near;
 uniform float far;
 
 uniform float blindness;
+uniform float darknessFactor;
 uniform float eyeAltitude;
 uniform float rainStrength;
 uniform float wetness;
@@ -215,5 +216,8 @@ void main() {
 		case -1:
 			break;
 	}
+#else 
+	fog_scattering = vec3(0.0);
+	fog_transmittance = vec3(1.0);
 #endif
 }

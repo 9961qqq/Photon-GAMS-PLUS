@@ -205,6 +205,8 @@ vec4 read_clouds(out float apparent_distance) {
 		result.xyz += LIGHTNING_FLASH_UNIFORM * lightning_flash_intensity * ambient_scattering;
 	}
 
+	result.xyz *= clamp01(1.0 - blindness - darknessFactor);
+
 	return result;
 #else
 	return vec4(0.0, 0.0, 0.0, 1.0);
@@ -284,7 +286,7 @@ void main() {
 
 	// Apply rainbows
 // #if defined WORLD_OVERWORLD && defined RAINBOWS
-// fragment_color = draw_rainbows(
+	// fragment_color = draw_rainbows(
 		// 	fragment_color, 
 		// 	direction_world, 
 		// 	min(is_sky ? 1e6 : view_distance, mix(clouds_apparent_distance, 1e6, linear_step(1.0, 0.95, clouds_and_aurora.w)))
@@ -370,13 +372,13 @@ void main() {
 
 	// Border fog 
 
-	#ifdef BORDER_FOG
-		fragment_color = mix(
-			original_color,
-			fragment_color, 
-			border_fog(front_position_scene, direction_world)
-		);
-	#endif
+#ifdef BORDER_FOG
+	fragment_color = mix(
+		original_color,
+		fragment_color, 
+		border_fog(front_position_scene, direction_world)
+	);
+#endif
 
 	// Blend clouds in front of translucents
 
@@ -425,7 +427,7 @@ void main() {
 	#endif
 	} else {
 	#if defined WORLD_OVERWORLD
-			// Overworld fog
+		// Overworld fog
 
 		mat2x3 analytic_fog = air_fog_analytic(
 			cameraPosition,
