@@ -280,6 +280,7 @@ void main() {
 #endif
 
 	fragment_color = texture(colortex0, refracted_uv * taau_render_scale).rgb;
+	vec3 original_color = fragment_color;
 
 	// Apply rainbows
 // #if defined WORLD_OVERWORLD
@@ -366,6 +367,16 @@ void main() {
 		is_translucent,
 		is_sky
 	);
+
+	// Border fog 
+
+	#ifdef BORDER_FOG
+		fragment_color = mix(
+			original_color,
+			fragment_color, 
+			border_fog(front_position_scene, direction_world)
+		);
+	#endif
 
 	// Blend clouds in front of translucents
 
