@@ -10,17 +10,17 @@
 
 vec3 aurora_color(vec3 pos, float altitude_fraction) {
 	return mix(
-		daily_weather_variation.aurora_colors[0], 
-		daily_weather_variation.aurora_colors[1], 
+		daily_weather_variation.aurora_colors[0],
+	 	daily_weather_variation.aurora_colors[1], 
 		clamp01(dampen(altitude_fraction))
-	);
+	); 
 }
 
 #if AURORA_TYPE == AURORA_PHOTON
 
 float aurora_shape(vec3 pos, float altitude_fraction) {
-	const vec2 wind_0     = 0.001 * vec2(0.7, 0.1);
-	const vec2 wind_1     = 0.0013 * vec2(-0.1, -0.7);
+	const vec2 wind_0     = 0.005 * vec2(0.7, 0.1);
+	const vec2 wind_1     = 0.008 * vec2(-0.1, -0.7);
 	float frequency = 0.00003 * mix(AURORA_FREQUENCY, AURORA_FREQUENCY_SNOW, biome_may_snow);
 	float time = frameTimeCounter * mix(AURORA_SPEED, AURORA_SPEED_SNOW, biome_may_snow);
 

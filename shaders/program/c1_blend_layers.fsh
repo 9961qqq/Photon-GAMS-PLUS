@@ -222,7 +222,7 @@ void main() {
 	vec4 refraction_data   = texelFetch(colortex3, texel, 0);
 	vec4 translucent_color = texelFetch(colortex13, texel, 0);
 	
-#ifdef VL
+#if defined VL || defined LPV_VL
 	vec3 fog_transmittance = smooth_filter(colortex6, uv).rgb;
 	vec3 fog_scattering    = smooth_filter(colortex7, uv).rgb;
 #endif
@@ -283,7 +283,7 @@ void main() {
 	vec3 original_color = fragment_color;
 
 	// Apply rainbows
-// #if defined WORLD_OVERWORLD
+// #if defined WORLD_OVERWORLD && defined RAINBOWS
 // fragment_color = draw_rainbows(
 		// 	fragment_color, 
 		// 	direction_world, 
@@ -404,7 +404,7 @@ void main() {
 	// Analytic fog
 
 	if (isEyeInWater == 1) {
-		// water fog
+		// Underwater fog
 		float LoV = dot(direction_world, light_dir);
 
 		mat2x3 analytic_fog = water_fog_simple(
@@ -424,9 +424,9 @@ void main() {
 		bloomy_fog = sqrt(clamp01(dot(analytic_fog[1], vec3(0.33))));
 	#endif
 	} else {
-		// air fog
-
 	#if defined WORLD_OVERWORLD
+			// Overworld fog
+
 		mat2x3 analytic_fog = air_fog_analytic(
 			cameraPosition,
 			front_position_world,

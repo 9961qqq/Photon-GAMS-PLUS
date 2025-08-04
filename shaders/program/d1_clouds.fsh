@@ -45,10 +45,8 @@ uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjection;
 uniform mat4 gbufferProjectionInverse;
 
-#ifdef SHADOW
 uniform mat4 shadowModelView;
 uniform mat4 shadowModelViewInverse;
-#endif
 
 uniform vec3 cameraPosition;
 uniform vec3 previousCameraPosition;
@@ -105,7 +103,10 @@ uniform float biome_humidity;
 #include "/include/sky/atmosphere.glsl"
 #include "/include/sky/aurora.glsl"
 #include "/include/sky/clouds.glsl"
+
+#if defined CREPUSCULAR_RAYS && !defined BLOCKY_CLOUDS
 #include "/include/sky/crepuscular_rays.glsl"
+#endif
 #endif
 
 #include "/include/misc/distant_horizons.glsl"
@@ -189,7 +190,7 @@ void main() {
 
 	// Crepuscular rays 
 
-#ifdef CREPUSCULAR_RAYS
+#if defined CREPUSCULAR_RAYS && !defined BLOCKY_CLOUDS
 	vec4 crepuscular_rays = draw_crepuscular_rays(colortex8, ray_dir, dither);
 	clouds *= crepuscular_rays.w;
 	clouds.rgb += crepuscular_rays.xyz;

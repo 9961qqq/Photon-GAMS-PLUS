@@ -190,12 +190,12 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 	float stars_visibility = clamp01(1.0 - dot(skytextured_output, vec3(0.33) * 256.0));
 	sky += draw_stars(celestial_dir, galaxy_luminance) * stars_visibility;
 #endif
-
-#ifndef VANILLA_SUN
-	// Sun
-	sky += draw_sun(ray_dir);
+#ifdef END_SUN_EFFECT
+	#ifndef VANILLA_SUN
+		// Sun
+		sky += draw_sun(ray_dir);
+	#endif
 #endif
-
 #endif
 
 	// Sky gradient
