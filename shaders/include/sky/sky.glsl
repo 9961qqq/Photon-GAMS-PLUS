@@ -328,11 +328,13 @@ vec3 draw_sky(vec3 ray_dir) {
 
 #if defined PROGRAM_DEFERRED4
 	// Output of skytextured
+	vec3 skytextured_output = texelFetch(colortex0, ivec2(gl_FragCoord.xy), 0).rgb;
 	sky += texelFetch(colortex0, ivec2(gl_FragCoord.xy), 0).rgb;
 
 #ifdef STARS
 	// Stars
-	sky += draw_stars(ray_dir);
+	float stars_visibility = clamp01(1.0 - dot(skytextured_output, vec3(0.33) * 64.0));
+	sky += draw_stars(celestial_dir, galaxy_luminance) * stars_visibility;
 #endif
 
 #ifndef VANILLA_SUN
