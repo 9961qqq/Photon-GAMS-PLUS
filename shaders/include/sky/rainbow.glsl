@@ -54,7 +54,7 @@ vec3 draw_rainbows(
 	vec3 direction_world,
 	float view_distance
 ) {
-	#ifndef RAINBOWS
+#ifndef RAINBOWS
 		return fragment_color;
 	#endif
 

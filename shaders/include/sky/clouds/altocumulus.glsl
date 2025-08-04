@@ -121,7 +121,7 @@ vec2 clouds_altocumulus_scattering(
 		scattering.y += scatter_amount * exp(-extinct_amount *    sky_optical_depth) * isotropic_phase;
 
 		scatter_amount *= 0.55 * mix(lift(clamp01(scattering_coeff / 0.1), 0.33), 1.0, cos_theta * 0.5 + 0.5) * powder_effect;
-		extinct_amount *= 0.4;
+		extinct_amount *= 0.45;
 		phase_g *= 0.8;
 
 		powder_effect = mix(powder_effect, sqrt(powder_effect), 0.5);
@@ -265,7 +265,7 @@ CloudsResult draw_altocumulus_clouds(
 	// Remap the transmittance so that min_transmittance is 0
 	float clouds_transmittance = linear_step(min_transmittance, 1.0, transmittance);
 
-	vec3 clouds_scattering = scattering.x * light_color + scattering.y * sky_color;
+	vec3 clouds_scattering = scattering.x * light_color + scattering.y * sky_color * 1.41;
 	if (distance_to_terrain < 0.0) clouds_scattering = clouds_aerial_perspective(clouds_scattering, clouds_transmittance, air_viewer_pos, ray_origin, ray_dir, clear_sky);
 
 	float apparent_distance = (distance_weight_sum == 0.0)
