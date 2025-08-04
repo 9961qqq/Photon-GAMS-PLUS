@@ -73,7 +73,7 @@ float clouds_cumulus_density(vec3 pos, vec2 detail_weights, vec2 edge_sharpening
 
 	// Adjust density so that the clouds are wispy at the bottom and hard at the top
 	density  = max0(density);
-	density  = 1.0 - pow(1.0 - density, mix(edge_sharpening.x, edge_sharpening.y, altitude_fraction));
+	density  = lift(density, mix(edge_sharpening.x, edge_sharpening.y, altitude_fraction));
 	density *= CLOUDS_ROUGHNESS + 0.9 * smoothstep(0.2, 0.7, altitude_fraction);
 
 	return density;

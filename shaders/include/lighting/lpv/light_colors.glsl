@@ -1,4 +1,4 @@
-#ifndef INCLUDE_LIGHTING_LPV_LIGHT_COLORS
+#if !defined INCLUDE_LIGHTING_LPV_LIGHT_COLORS
 #define INCLUDE_LIGHTING_LPV_LIGHT_COLORS
 
 #if (!defined(WORLD_END) && defined(END_COLORED_LIGHTING) || !defined(END_COLORED_LIGHTING))
@@ -104,7 +104,7 @@ const vec3[64] light_color = vec3[64](
 	vec3(1.00, 1.00, 1.00) * vec3(1.00, 1.00, 1.00) * 64.0, // Lightning rod
 	vec3(0.60, 0.10, 1.00) * vec3(0.60, 0.10, 1.00) * 12.0, // Nether portal
 	vec3(0.0),  // End portal
-	vec3(1.0, 0.1, 0.1) * vec3(1.0, 0.1, 0.1) *  1.5, // Red
+vec3(1.0, 0.1, 0.1) * vec3(1.0, 0.1, 0.1) *  1.5, // Red
 	vec3(1.0, 0.5, 0.1) * vec3(1.0, 0.5, 0.1) *  1.5, // Orange
 	vec3(1.0, 0.8, 0.2) * vec3(1.0, 0.8, 0.2) * 1.0, // Yellow
 	vec3(0.7, 0.7, 0.0) * vec3(0.7, 0.7, 0.0) *  1.0, // Brown

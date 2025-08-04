@@ -63,7 +63,7 @@ float clouds_altocumulus_density(vec3 pos) {
 
 	// Adjust density so that the clouds are wispy at the bottom and hard at the top
 	density  = max0(density);
-	density  = 1.0 - pow(1.0 - density, mix(3.0, 8.0, altitude_fraction));
+	density  = lift(density, mix(3.0, 8.0, altitude_fraction));
 	density *= 0.1 + 0.9 * smoothstep(0.2, 0.7, altitude_fraction);
 
 	return density;

@@ -26,6 +26,7 @@ screen.shadows                         = Shadows
 screen.ao                              = Ambient Occlusion
 screen.color_grading                   = Color Grading
 screen.exposure                        = Exposure
+screen.lpv_vl                          = Colored Lights Fog Scattering
 
 screen.aurora                          = Aurora
 screen.clouds                          = Clouds
@@ -56,23 +57,11 @@ screen.fog_rlh_swamp                   = Swamp Color
 screen.water_waves                     = Water Waves
 screen.water_fog_coeff                 = Water Fog Coefficients
 
-screen.weather                         = Daily Weather System
-screen.weather_d0                      = Day 0
-screen.weather_d1                      = Day 1
-screen.weather_d2                      = Day 2
-screen.weather_d3                      = Day 3
-screen.weather_d4                      = Day 4
-screen.weather_d5                      = Day 5
-screen.weather_d6                      = Day 6
-screen.weather_d7                      = Day 7
-screen.weather_d8                      = Day 8
-screen.weather_d9                      = Day 9
-screen.weather_d10                     = Day 10
-screen.weather_d11                     = Day 11
-
 screen.end_light_color                 = Light Color
 screen.end_ambient_color               = Ambient Color
 screen.nether_color                    = Static Color
+
+screen.distance_view                   = Distance View
 
 option.INFO                            = Photon Shader
 value.INFO.0                           = §eby SixthSurge
@@ -103,7 +92,7 @@ option.MOON_PHASE_AFFECTS_BRIGHTNESS.comment = Night time brightness is affected
 option.DESERT_SANDSTORM                = Desert Sandstorm
 option.DESERT_SANDSTORM.comment        = Sandstorm during rain in desert biome
 option.END_GLOW                        = End Glow
-option.END_GLOW.comment                = Wavery glowing effect in the End. Requires Volumetric Lighting
+option.END_GLOW.comment                = Wavery glowing effect in the End. Requires Volumetric Fog
 
 # Lighting settings
 
@@ -159,7 +148,7 @@ comment.SSAO_RADIUS                    = Adjusts the radius of SSAO - distance w
 option.SSAO_STEPS                      = SSAO Steps
 comment.SSAO_STEPS                     = Controls how noisy the SSAO appears
 option.GTAO_RADIUS                     = GTAO Radius
-comment.GTAO_RADIUS                    = Adjusts the radius of SSAO - distance which objects can occlude each otherdistance which objects can occlude each other
+comment.GTAO_RADIUS                    = Adjusts the radius of GTAO - distance which objects can occlude each otherdistance which objects can occlude each other
 option.GTAO_SLICES                     = GTAO Slices
 comment.GTAO_SLICES                    = Controls how noisy the GTAO appears
 option.GTAO_HORIZON_STEPS              = GTAO Horizon Steps
@@ -254,6 +243,7 @@ option.GALAXY.comment                  = Galaxy image in the night sky
 option.GALAXY_INTENSITY                = Galaxy Intensity
 option.GALAXY_INTENSITY.comment        = Controls the brightness of the galaxy in the night sky
 option.CREPUSCULAR_RAYS                = Crepuscular Rays
+option.LIGHTNING_FLASH                 = Lightning Flash
 
 # Clouds
 option.CLOUDS_CUMULUS                       = Cumulus Clouds
@@ -269,7 +259,6 @@ option.CLOUDS_CUMULUS_DENSITY               = Density
 option.CLOUDS_CUMULUS_COVERAGE              = Coverage
 option.CLOUDS_CUMULUS_SIZE                  = Size
 option.CLOUDS_CUMULUS_DETAIL_STRENGTH       = Detail Strength
-option.CLOUDS_CUMULUS_CURL_STRENGTH         = Curl Strength
 option.CLOUDS_CUMULUS_WIND_SPEED            = Wind Speed
 suffix.CLOUDS_CUMULUS_ALTITUDE              = m/s
 option.CLOUDS_CUMULUS_WIND_ANGLE            = Wind Angle
@@ -288,7 +277,6 @@ option.CLOUDS_ALTOCUMULUS_DENSITY               = Density
 option.CLOUDS_ALTOCUMULUS_COVERAGE              = Coverage
 option.CLOUDS_ALTOCUMULUS_SIZE                  = Size
 option.CLOUDS_ALTOCUMULUS_DETAIL_STRENGTH       = Detail Strength
-option.CLOUDS_ALTOCUMULUS_CURL_STRENGTH         = Curl Strength
 option.CLOUDS_ALTOCUMULUS_WIND_SPEED            = Wind Speed
 suffix.CLOUDS_ALTOCUMULUS_ALTITUDE              = m/s
 option.CLOUDS_ALTOCUMULUS_WIND_ANGLE            = Wind Angle
@@ -307,7 +295,6 @@ option.CLOUDS_CUMULUS_CONGESTUS_DENSITY               = Density
 option.CLOUDS_CUMULUS_CONGESTUS_COVERAGE              = Coverage
 option.CLOUDS_CUMULUS_CONGESTUS_SIZE                  = Size
 option.CLOUDS_CUMULUS_CONGESTUS_DETAIL_STRENGTH       = Detail Strength
-option.CLOUDS_CUMULUS_CONGESTUS_CURL_STRENGTH         = Curl Strength
 option.CLOUDS_CUMULUS_CONGESTUS_WIND_SPEED            = Wind Speed
 suffix.CLOUDS_CUMULUS_CONGESTUS_ALTITUDE              = m/s
 option.CLOUDS_CUMULUS_CONGESTUS_WIND_ANGLE            = Wind Angle
@@ -394,13 +381,22 @@ option.BLOOMY_FOG_INTENSITY            = Bloomy Fog Intensity
 option.BLOOMY_FOG_INTENSITY.comment    = Adjusts the intensity of "bloomy fog"
 option.OVERWORLD_FOG_INTENSITY         = Overworld Fog Intensity
 option.NETHER_FOG_INTENSITY            = Nether Fog Intensity
-option.VL                              = Volumetric Lighting
+option.VL                              = Volumetric Fog
+comment.LPV_VL                         = Light sources illuminate the fog. Requires Colored Lights! 
 option.VL.comment                      = Adds light shafts and variable fog density
 option.VL_RENDER_SCALE                 = VL Render Scale
 option.AIR_FOG_CLOUDY_NOISE            = Cloudy Fog
 option.AIR_FOG_CLOUDY_NOISE.comment    = Subtle cloudy shapes in the fog, best visible in the morning.\nRequires volumetric fog!
 option.AIR_FOG_COLORED_LIGHT_SHAFTS    = Colored Light Shafts
 option.AIR_FOG_COLORED_LIGHT_SHAFTS.comment = Light shafts passing through translucent objects are tinted by their color
+
+# LPV VL
+option.LPV_VL                          = Enabled
+option.LPV_VL_STEPS                    = Steps 
+option.LPV_VL_INTENSITY_OVERWORLD      = Overworld Intensity
+option.LPV_VL_INTENSITY_UNDERGROUND    = Underground Intensity
+option.LPV_VL_INTENSITY_NETHER         = Nether Intensity
+option.LPV_VL_INTENSITY_END            = End Intensity
 
 option.AIR_FOG_RAYLEIGH_FALLOFF_START     = Rayleigh Falloff Start
 option.AIR_FOG_RAYLEIGH_FALLOFF_START.comment = Altitude above sea level at which the rayleigh fog begins to decrease
@@ -600,8 +596,8 @@ value.DOF_FOCUS.-1.0                   = Automatic
 
 option.tonemap                         = Tonemap Operator
 
-value.tonemap.academy_fit              = Academy Fit
-value.tonemap.academy_rrt              = Academy RRT
+value.tonemap.tonemap_aces_fit         = ACES Fit
+value.tonemap.tonemap_aces_full        = ACES Full
 value.tonemap.tonemap_hejl_2015        = Hejl 2015
 value.tonemap.tonemap_hejl_burgess     = Hejl-Burgess
 value.tonemap.tonemap_lottes           = Lottes
@@ -669,8 +665,8 @@ comment.USE_SEPARATE_ENTITY_DRAWS      = "separateEntityDraws" is an Iris featur
 
 value.DEBUG_VIEW.DEBUG_VIEW_NONE       = OFF
 value.DEBUG_VIEW.DEBUG_VIEW_SAMPLER    = Sampler
-value.DEBUG_VIEW.DEBUG_VIEW_WEATHER    = Weather
 value.DEBUG_VIEW.DEBUG_VIEW_HISTOGRAM  = Histogram
+value.DEBUG_VIEW.DEBUG_VIEW_WEATHER    = Weather
 
 value.tonemap_left.academy_fit            = Academy Fit
 value.tonemap_left.academy_rrt            = Academy RRT
@@ -694,6 +690,16 @@ value.tonemap_right.tonemap_ozius          = Ozius
 value.tonemap_right.tonemap_reinhard       = Reinhard
 value.tonemap_right.tonemap_reinhard_jodie = Reinhard-Jodie
 
+# Distance View 
+
+option.DISTANCE_VIEW                   = Enabled
+option.DISTANCE_VIEW_METHOD            = Method
+option.DISTANCE_VIEW_MAX_DISTANCE      = Max Distance
+suffix.DISTANCE_VIEW_MAX_DISTANCE      = m
+
+value.DISTANCE_VIEW_METHOD.DISTANCE_VIEW_DISTANCE = Distance
+value.DISTANCE_VIEW_METHOD.DISTANCE_VIEW_DEPTH    = Depth
+
 # Box
 
 option.BOX_MODE                 = Box Mode
@@ -708,116 +714,3 @@ option.BOX_EMISSION             = Emission
 option.BOX_EMISSION.comment     = Scales color past 1. Requires bloom.
 option.BOX_LINE_WIDTH           = Line Width
 
-# Daily Weather System
-
-option.WEATHER_DAY                         = Day
-value.WEATHER_DAY.-1                       = Random
-
-option.WEATHER_D0_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D0_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D0_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D0_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D0_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D0_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D0_FOGGINESS                = Fogginess
-option.WEATHER_D0_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D0_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D1_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D1_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D1_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D1_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D1_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D1_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D1_FOGGINESS                = Fogginess
-option.WEATHER_D1_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D1_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D2_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D2_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D2_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D2_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D2_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D2_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D2_FOGGINESS                = Fogginess
-option.WEATHER_D2_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D2_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D3_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D3_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D3_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D3_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D3_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D3_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D3_FOGGINESS                = Fogginess
-option.WEATHER_D3_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D3_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D4_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D4_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D4_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D4_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D4_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D4_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D4_FOGGINESS                = Fogginess
-option.WEATHER_D4_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D4_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D5_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D5_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D5_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D5_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D5_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D5_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D5_FOGGINESS                = Fogginess
-option.WEATHER_D5_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D5_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D6_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D6_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D6_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D6_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D6_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D6_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D6_FOGGINESS                = Fogginess
-option.WEATHER_D6_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D6_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D7_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D7_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D7_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D7_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D7_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D7_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D7_FOGGINESS                = Fogginess
-option.WEATHER_D7_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D7_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D8_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D8_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D8_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D8_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D8_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D8_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D8_FOGGINESS                = Fogginess
-option.WEATHER_D8_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D8_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D9_CLOUDS_CUMULUS_MIN       = Min Cumulus Coverage
-option.WEATHER_D9_CLOUDS_CUMULUS_MAX       = Max Cumulus Coverage
-option.WEATHER_D9_CLOUDS_ALTOCUMULUS_MIN   = Min Altocumulus Coverage
-option.WEATHER_D9_CLOUDS_ALTOCUMULUS_MAX   = Max Altocumulus Coverage
-option.WEATHER_D9_CLOUDS_CIRRUS            = Cirrus Coverage
-option.WEATHER_D9_CLOUDS_CIRROCUMULUS      = Cirrocumulus Coverage
-option.WEATHER_D9_FOGGINESS                = Fogginess
-option.WEATHER_D9_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D9_CLOUDS_STRATUS_AMOUNT    = Stratus Clouds
-option.WEATHER_D10_CLOUDS_CUMULUS_MIN      = Min Cumulus Coverage
-option.WEATHER_D10_CLOUDS_CUMULUS_MAX      = Max Cumulus Coverage
-option.WEATHER_D10_CLOUDS_ALTOCUMULUS_MIN  = Min Altocumulus Coverage
-option.WEATHER_D10_CLOUDS_ALTOCUMULUS_MAX  = Max Altocumulus Coverage
-option.WEATHER_D10_CLOUDS_CIRRUS           = Cirrus Coverage
-option.WEATHER_D10_CLOUDS_CIRROCUMULUS     = Cirrocumulus Coverage
-option.WEATHER_D10_FOGGINESS               = Fogginess
-option.WEATHER_D10_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D10_CLOUDS_STRATUS_AMOUNT   = Stratus Clouds
-option.WEATHER_D11_CLOUDS_CUMULUS_MIN      = Min Cumulus Coverage
-option.WEATHER_D11_CLOUDS_CUMULUS_MAX      = Max Cumulus Coverage
-option.WEATHER_D11_CLOUDS_ALTOCUMULUS_MIN  = Min Altocumulus Coverage
-option.WEATHER_D11_CLOUDS_ALTOCUMULUS_MAX  = Max Altocumulus Coverage
-option.WEATHER_D11_CLOUDS_CIRRUS           = Cirrus Coverage
-option.WEATHER_D11_CLOUDS_CIRROCUMULUS     = Cirrocumulus Coverage
-option.WEATHER_D11_FOGGINESS               = Fogginess
-option.WEATHER_D11_CLOUDS_CUMULUS_CONGESTUS_AMOUNT = Cumulus Congestus Clouds
-option.WEATHER_D11_CLOUDS_STRATUS_AMOUNT   = Stratus Clouds

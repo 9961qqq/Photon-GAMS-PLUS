@@ -78,9 +78,10 @@ void main() {
 	ambient_color = texelFetch(colortex4, ivec2(lighting_color_x, 1), 0).rgb;
 #endif
 
+#if defined WORLD_OVERWORLD
 	Weather weather = get_weather();
 
-#if defined WORLD_OVERWORLD
+	#if defined WORLD_OVERWORLD
 	air_fog_coeff = calculate_air_fog_coefficients();
 	rainbow_amount = get_rainbow_amount(weather);
 #endif

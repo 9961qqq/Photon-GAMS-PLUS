@@ -1025,6 +1025,9 @@ const float wetnessHalflife         = 70.0;
 
   #define USE_SEPARATE_ENTITY_DRAWS 
 
+  #ifdef VL  
+  #endif
+
   #define DAYLIGHT_CYCLE
 
 //#define PHYSICS_MOD_OCEAN
