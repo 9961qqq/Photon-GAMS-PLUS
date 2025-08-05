@@ -60,7 +60,7 @@ void main() {
 		return;
 	}
 
-	vec2 velocity = uv - reproject(vec3(uv, depth)).xy;
+	vec2 velocity = uv - reproject(vec3(uv, depth)).xy;;
 
 	vec2 pos = uv;
 	vec2 increment = (0.5 * MOTION_BLUR_INTENSITY / float(MOTION_BLUR_SAMPLES)) * velocity;
@@ -69,7 +69,7 @@ void main() {
 	float weight_sum = 0.0;
 
 	for (uint i = 0u; i < MOTION_BLUR_SAMPLES; ++i, pos += increment) {
-		ivec2 tap      = ivec2(clamped_pos * view_res);
+		ivec2 tap      = ivec2(pos * view_res);
 		ivec2 view_tap = ivec2(pos * view_res * taau_render_scale);
 
 		vec3 color = texelFetch(colortex0, tap, 0).rgb;
