@@ -193,7 +193,7 @@ CloudsResult draw_altocumulus_clouds(
 		daily_weather_variation.clouds_altocumulus_coverage.x
 	);
 
-	float extinction_coeff = mix(0.05, 0.1, day_factor) * CLOUDS_ALTOCUMULUS_DENSITY * (1.0 - 0.85 * high_coverage * (dampen(time_noon + time_midnight) * 0.75 + 0.25)) * (1.0 - 0.33 * rainStrength);
+	float extinction_coeff = mix(0.08, 0.16, day_factor) * CLOUDS_ALTOCUMULUS_DENSITY * (1.0 - 0.85 * high_coverage * (dampen(time_noon + time_midnight) * 0.75 + 0.25)) * (1.0 - 0.33 * rainStrength);
 	float scattering_coeff = extinction_coeff * mix(1.00, 0.66, rainStrength);
 
 	bool moonlit = sun_dir.y < -0.045;
