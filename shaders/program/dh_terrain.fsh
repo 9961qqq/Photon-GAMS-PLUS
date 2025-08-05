@@ -29,6 +29,7 @@ in vec3 normal;
 in vec3 color;
 
 flat in uint material_mask;
+uniform vec2 view_pixel_size;
 
 #include "/include/utility/encoding.glsl"
 
