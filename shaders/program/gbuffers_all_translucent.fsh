@@ -198,9 +198,11 @@ void decode_normal_map(vec3 normal_map, out vec3 normal, out float ao) {
 Material get_water_material(
 	vec3 direction_world,
 	vec3 normal,
-	float layer_dist
+	float layer_dist,
+	out float alpha
 ) {
 	Material material = water_material;
+	alpha = 0.01;
 
 	// Water texture
 
@@ -232,9 +234,11 @@ Material get_water_material(
 			material.albedo = clamp01(0.5 * exp(-2.0 * water_absorption_coeff) * texture_highlight);
 		#endif
 	material.roughness += 0.3 * texture_highlight;
+	alpha+= texture_highlight;
 #elif WATER_TEXTURE == WATER_TEXTURE_VANILLA
 	vec4 base_color = texture(gtexture, uv, lod_bias) * tint;
 	material.albedo = srgb_eotf_inv(base_color.rgb * base_color.a) * rec709_to_working_color;
+	alpha = base_color.a;
 #endif
 
 	#if defined WATER_TEXTURE_HIGHLIGHT_BIOME_COLOR && (WATER_TEXTURE == WATER_TEXTURE_HIGHLIGHT_UNDERGROUND)
@@ -281,8 +285,8 @@ Material get_water_material(
 			material.albedo += 0.1 * edge_highlight / mix(1.0, max(dot(ambient_color, luminance_weights_rec2020), 0.5), light_levels.y) * tint.rgb;
 		#else
 	material.albedo += 0.1 * edge_highlight / mix(1.0, max(dot(ambient_color, luminance_weights_rec2020), 0.5), light_levels.y);
+	alpha += edge_highlight;
 #endif
-		
 	material.albedo  = clamp01(material.albedo);
 #endif
 
@@ -432,7 +436,8 @@ void main() {
 		material = get_water_material(
 			direction_world,
 			normal,
-			layer_dist
+			layer_dist,
+			fragment_color.a
 		);
 
 	#ifdef WATER_WAVES
@@ -582,7 +587,7 @@ void main() {
 		NoV,
 		NoH,
 		LoV
-	) * sqr(fragment_color.a);
+	);
 
 	// Specular highlight
 
