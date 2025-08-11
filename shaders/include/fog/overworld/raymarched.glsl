@@ -19,17 +19,37 @@ vec2 air_fog_density(vec3 world_pos) {
 	density *= linear_step(air_fog_volume_bottom, SEA_LEVEL, world_pos.y);
 
 #ifdef AIR_FOG_CLOUDY_NOISE
-	const vec3 wind = 0.0003 * vec3(1.0, 0.0, 0.7);
+	// Controls how fast the clouds move (higher = faster)
+	// x = horizontal movement, z = depth movement
+	const vec3 wind = 0.0003 * vec3(8.0, 0.0, 0.7);
 
-	float noise = texture(noisetex, 0.001 * world_pos.xz + wind.xz * frameTimeCounter).w;
+	// Controls the spacing between clouds
+	// Lower values = more spread out clouds, Higher values = tighter packed clouds
+	// Default: 0.001
+	const float cloud_spacing = 0.0001 * AIR_FOG_CLOUDY_NOISE_CLOUD_SPACING;
 
-	density.y *= 4.0 * sqr(noise);
+	// Controls the vertical height/thickness of clouds
+	// Higher values create taller clouds, lower values create flatter clouds
+	// Default: 3.0
+	const float vertical_scale = AIR_FOG_CLOUDY_NOISE_VERTICAL_SCALE;
+
+	// Controls overall cloud density
+	// Higher values = denser/more opaque clouds
+	// Default: 1.0
+	const float density_multiplier = AIR_FOG_CLOUDY_NOISE_DENSITY_MULTIPLIER;
+
+	// Sample noise texture for cloud pattern
+	float noise = texture(noisetex, cloud_spacing * world_pos.xz + wind.xz * frameTimeCounter).w;
+
+	// Apply all modifiers to density
+	density.y *= vertical_scale * density_multiplier * sqr(0.5 - noise);
 #endif
 
 	return density * (0.5 * OVERWORLD_FOG_INTENSITY);
 }
 
 mat2x3 raymarch_air_fog(vec3 world_start_pos, vec3 world_end_pos, bool sky, float skylight, float dither) {
+	const uint air_fog_multiple_scattering_iterations = FOG_MULTIPLE_SCATTERING_ITERATIONS; // 4	
 	vec3 world_dir = world_end_pos - world_start_pos;
 
 	float length_sq = length_squared(world_dir);
@@ -159,7 +179,7 @@ mat2x3 raymarch_air_fog(vec3 world_start_pos, vec3 world_end_pos, bool sky, floa
 
 	scattering += 2.0 * light_sky * vec2(isotropic_phase) * ambient_color;
 
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < air_fog_multiple_scattering_iterations; ++i) {
 		float mie_phase = 0.7 * henyey_greenstein_phase(LoV, 0.5 * anisotropy) + 0.3 * henyey_greenstein_phase(LoV, -0.2 * anisotropy);
 
 		scattering += scatter_amount * (light_sun * vec2(isotropic_phase, mie_phase)) * light_color;
