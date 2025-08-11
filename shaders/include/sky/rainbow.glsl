@@ -55,12 +55,12 @@ vec3 draw_rainbows(
 	float view_distance
 ) {
 #ifndef RAINBOWS
-		return fragment_color;
-	#endif
+	return fragment_color;
+#endif
 
-	if (rainbow_amount < eps) {
-		return fragment_color;
-	}
+	// if (rainbow_amount < eps) {
+	// return fragment_color;
+	// }
 
 	float rainbow_angle = fast_acos(clamp01(-dot(direction_world, light_dir)));
 
@@ -79,7 +79,7 @@ vec3 draw_rainbows(
 	vec3 transmittance_approx = mix(vec3(1.0, 0.75, 0.5), vec3(1.0), dampen(max0(direction_world.y)));
 
 	vec3 rainbow_color = light_color * 0.1 * (3.0 * first_rainbow + 0.5 * second_rainbow) * sqr(transmittance_approx);
-	float rainbow_fade = rainbow_amount * smoothstep(rainbow_start_distance, rainbow_end_distance, view_distance) * smoothstep(0.0, 0.05, direction_world.y);;
+	float rainbow_fade = 2.0 * smoothstep(rainbow_start_distance, rainbow_end_distance, view_distance) * smoothstep(0.0, 0.05, direction_world.y);;
 
 	return fragment_color + rainbow_color * rainbow_fade;
 }

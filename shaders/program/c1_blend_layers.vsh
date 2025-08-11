@@ -21,8 +21,6 @@ uniform sampler2D colortex9; // Sky SH
 #if defined WORLD_OVERWORLD
 #include "/include/fog/overworld/coeff_struct.glsl"
 flat out AirFogCoefficients air_fog_coeff;
-
-flat out float rainbow_amount;
 #endif
 
 // ------------
@@ -83,7 +81,6 @@ void main() {
 
 	#if defined WORLD_OVERWORLD
 	air_fog_coeff = calculate_air_fog_coefficients();
-	rainbow_amount = get_rainbow_amount(weather);
 #endif
 
 	vec2 vertex_pos = gl_Vertex.xy;

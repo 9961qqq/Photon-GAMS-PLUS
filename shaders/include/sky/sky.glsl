@@ -15,6 +15,7 @@
 #include "/include/misc/lightning_flash.glsl"
 #include "/include/sky/atmosphere.glsl"
 #include "/include/sky/projection.glsl"
+#include "/include/sky/rainbow.glsl"
 #include "/include/sky/stars.glsl"
 #include "/include/utility/geometry.glsl"
 #include "/include/sky/shooting_stars.glsl"
@@ -211,6 +212,15 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 	vec4 clouds = get_clouds_and_aurora(ray_dir, sky);
 	sky *= clouds.a;   // transmittance
 	sky += clouds.rgb; // scattering
+
+	//Apply rainbows
+// #if defined WORLD_OVERWORLD && defined RAINBOWS
+// 	sky = draw_rainbows(
+// 			sky, 
+// 			ray_dir, 
+// 			1e6
+// 	);
+// #endif	
 
 	// Shooting stars
 #if defined SHOOTING_STARS && !defined PROGRAM_DEFERRED0

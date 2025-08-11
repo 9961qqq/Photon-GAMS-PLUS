@@ -512,6 +512,7 @@ void main() {
 
 		// Apply clouds in front of terrain
 #if defined WORLD_OVERWORLD
+
 	#ifndef BLOCKY_CLOUDS
 		if (clouds_distance < view_distance) {
 			scene_color = scene_color * clouds_and_aurora.w + clouds_and_aurora.xyz;
@@ -519,6 +520,18 @@ void main() {
 	#else
 		scene_color = scene_color * blocky_clouds.w + blocky_clouds.xyz;
 	#endif
+
+	// if (wetness > eps && biome_may_rain > eps) {
+			//Apply rainbows
+		// #if defined RAINBOWS
+		// 	scene_color = draw_rainbows(
+		// 			scene_color, 
+		// 			world_dir, 
+		// 			1e6
+		// 	);
+		// #endif	
+	// }
+
 #endif
 
 		// Apply purkinje shift

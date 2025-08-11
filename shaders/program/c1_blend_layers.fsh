@@ -35,8 +35,6 @@ flat in vec3 light_color;
 #ifdef WORLD_OVERWORLD 
 #include "/include/fog/overworld/coeff_struct.glsl"
 flat in AirFogCoefficients air_fog_coeff;
-
-flat in float rainbow_amount;
 #endif
 
 // ------------
@@ -284,15 +282,26 @@ void main() {
 	fragment_color = texture(colortex0, refracted_uv * taau_render_scale).rgb;
 	vec3 original_color = fragment_color;
 
-	// Apply rainbows
+// Apply rainbows
 // #if defined WORLD_OVERWORLD && defined RAINBOWS
 	// fragment_color = draw_rainbows(
-		// 	fragment_color, 
-		// 	direction_world, 
-		// 	min(is_sky ? 1e6 : view_distance, mix(clouds_apparent_distance, 1e6, linear_step(1.0, 0.95, clouds_and_aurora.w)))
+			// 	fragment_color, 
+			// 	direction_world, 
+			// 	min(is_sky ? 1e6 : view_distance, mix(clouds_apparent_distance, 1e6, linear_step(1.0, 0.95, clouds_and_aurora.w)))
 	// );
 // #endif
 	// Draw DH water
+
+	if (wetness > eps && biome_may_rain > eps) {
+			// Apply rainbows
+		#if defined RAINBOWS
+			fragment_color = draw_rainbows(
+					fragment_color, 
+					direction_world, 
+					view_distance
+			);
+		#endif	
+	}
 
 #if defined DISTANT_HORIZONS
 	if (front_depth_dh != back_depth_dh) {
