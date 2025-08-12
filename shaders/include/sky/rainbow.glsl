@@ -33,12 +33,16 @@ const float second_rainbow_thickness = 3.0 * degree;
 const float rainbow_start_distance = 500.0;
 const float rainbow_end_distance = 600.0;
 
-vec3 draw_single_rainbow(float view_angle, float start_angle, float end_angle) {
+vec3 draw_single_rainbow(float view_angle, float start_angle, float end_angle, bool flip) {
 	float rainbow_progress = linear_step_unclamped(start_angle, end_angle, view_angle);
 
 	if (clamp01(rainbow_progress) != rainbow_progress) {
 		return vec3(0.0);
 	}
+
+    if (flip) {
+        rainbow_progress = 1.0 - rainbow_progress;
+    }
 
 	float i, f = modf(rainbow_progress * float(rainbow_colors_lab.length() - 1) - 0.5, i);
 
@@ -67,13 +71,15 @@ vec3 draw_rainbows(
 	vec3 first_rainbow = draw_single_rainbow(
 		rainbow_angle,
 		first_rainbow_middle_angle + first_rainbow_thickness * 0.5,
-		first_rainbow_middle_angle - first_rainbow_thickness * 0.5
+		first_rainbow_middle_angle - first_rainbow_thickness * 0.5,
+		false // 主虹，不反转
 	);
 
 	vec3 second_rainbow = draw_single_rainbow(
 		rainbow_angle,
 		second_rainbow_middle_angle + second_rainbow_thickness * 0.5,
-		second_rainbow_middle_angle - second_rainbow_thickness * 0.5
+		second_rainbow_middle_angle - second_rainbow_thickness * 0.5,
+		true // 副虹，反转
 	);
 
 	vec3 transmittance_approx = mix(vec3(1.0, 0.75, 0.5), vec3(1.0), dampen(max0(direction_world.y)));
