@@ -3,8 +3,9 @@ Catman's lens flare from Seus Forum
 https://www.sonicether.com/forum/viewtopic.php?f=4&t=175 (Original site, no longer available)
 https://www.neocodex.us/forum/topic/126112-guide-add-lens-flare-to-seus-shader-pack/
 */
-
+#ifdef LENS_FLARE
 float SdotU = dot(sunVec, upVec);
+#endif
 
 //Higher precision bayer pattern
 float bayer64(vec2 a) { return 0.25 * bayer32(0.5 * a) + bayer2(a); }
