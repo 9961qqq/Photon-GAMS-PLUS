@@ -30,6 +30,7 @@ screen.reflections                         = 反射
 screen.refraction                          = 折射
 screen.light_sources                     = 照明
 screen.shadows                           = 阴影
+screen.ao                              = 环境光遮蔽
 screen.color_grading                   = 颜色分级
 screen.exposure                           = 曝光
 screen.tonemap_settings              = 色调映射
@@ -66,7 +67,10 @@ screen.clouds_altocumulus              = 高积云设置
 screen.clouds_cumulus_congestus        = 浓积云设置
 screen.clouds_cumulonimbus             = 积雨云设置
 screen.clouds_cirrus                   = 卷云设置
+screen.clouds_noctilucent              = 夜光云设置
 screen.clouds_minecrafty               = 方块云层设置
+screen.stars                           = 星星
+screen.galaxy                          = 银河
 screen.nebula                          = 星云
 screen.nebula.comment            = 星云效果在部分设备上可能出现问题，若夜空显示异常，请关闭此效果.
 screen.nebula_color                    = 星云颜色
@@ -116,12 +120,13 @@ screen.end_light_color                 = 末地光照颜色
 screen.end_ambient_color               = 末地环境光颜色
 screen.nether_color                    = 下界基础颜色
 
-option.INFO                            = Photon GAMS
-value.INFO.0                           = §e作者: OUdefie17
-value.INFO.1                           = §a作者: OUdefie17
-value.INFO.2                           = §b作者: OUdefie17
-value.INFO.3                           = §d作者: OUdefie17
-option.INFO.comment                    = 原光影作者：§bSixthSurge§r. 修改版作者 §aSW-52 §c-Daytendo64- §dOUdefie17 §eArona74
+option.INFO                            = Photon GAMS plus
+value.INFO.0                           = §e作者: 9961QAQ
+value.INFO.1                           = §a作者: 9961QAQ
+value.INFO.2                           = §b作者: 9961QAQ
+value.INFO.3                           = §d作者: 9961QAQ
+value.INFO.4                           = §f作者: 9961QAQ
+option.INFO.comment                    = 原光影作者：§bSixthSurge§r. 修改版作者 §aSW-52 §c-Daytendo64- §dOUdefie17 §eArona74 §fMiclus
 
 # World settings
 
@@ -177,10 +182,23 @@ option.HANDHELD_LIGHTING               = 手持光源
 option.HANDHELD_LIGHTING.comment       = 可在世界投射光线的手持光源物品. 如果启用了彩色光源, 则手持光源也会投射近似于它们照明颜色的光照.
 option.HANDHELD_LIGHTING_INTENSITY     = 手持光源强度
 option.HANDHELD_LIGHTING_INTENSITY.comment = 调节手持光源的亮度.
-option.GTAO                            = 光影环境光遮蔽
-option.GTAO.comment                    = 基于 Ground-truth 的环境光遮蔽(GTAO), 也就是基于图像空间 horizon-based 环境光遮蔽(HBAO)改进的遮蔽计算方法. 在角落添加柔和的阴影.
+option.SHADER_AO                       = 光影环境光遮蔽
+option.SHADER_AO.comment               = 选择环境光遮蔽的算法类型. 关 - 不计算光影的环境光遮蔽算法. SSAO - 需要的采样数不多/闪烁更少但质量较低. GTAO - 更好的视觉质量但需要更多的采样也更多闪烁.
+value.SHADER_AO.SHADER_AO_NONE         = 关
+value.SHADER_AO.SHADER_AO_SSAO         = SSAO
+value.SHADER_AO.SHADER_AO_GTAO         = GTAO
 option.VANILLA_AO                      = 原版环境光遮蔽
-option.VANILLA_AO.comment              = 《我的世界》内置的环境光遮蔽.
+option.VANILLA_AO.comment              = 我的世界内置的环境光遮蔽.
+option.SSAO_RADIUS                     = SSAO 半径
+option.SSAO_RADIUS.comment             = 调节 SSAO 的半径 - 物体之间可以互相遮蔽的距离.
+option.SSAO_STEPS                      = SSAO 步数
+option.SSAO_STEPS.comment              = 控制 SSAO 噪点明显程度.
+option.GTAO_RADIUS                     = GTAO 半径
+option.GTAO_RADIUS.comment             = 调节 GTAO 的半径 - 物体之间可以互相遮蔽的距离.
+option.GTAO_SLICES                     = GTAO 切面数
+option.GTAO_SLICES.comment             = 控制 GTAO 噪点明显程度.
+option.GTAO_HORIZON_STEPS              = GTAO 水平线采样数
+option.GTAO_HORIZON_STEPS.comment      = 控制 GTAO 的精确度.
 option.AO_IN_SUNLIGHT                  = 应用环境光遮蔽于阳光照射处
 option.AO_IN_SUNLIGHT.comment          = 决定是否应用光影的环境光遮蔽在直接的阳光/月光照明区域下.
 option.CLOUD_SHADOWS                   = 云影
@@ -218,6 +236,8 @@ option.PIXELATED_SHADOWS.comment       = 使阴影捕捉方块纹理像素以创
 option.PIXELATED_SHADOWS_RESOLUTION    = 像素阴影分辨率
 option.SHADOW_DEPTH_SCALE              = 阴影深度
 option.SHADOW_DISTORTION               =  阴影畸变
+option.SSS_STEPS                       = 次表面散射步数
+option.SSS_STEPS.comment               = 增加以减少草丛和其他具有次表面散射(SSS)材质的噪点, 但会牺牲性能.
 
 option.SUN_NR                          = 阳光 - 正午 - 红色
 option.SUN_NG                          = 阳光 - 正午 - 绿色
@@ -309,11 +329,14 @@ value.shadowDistance.1536.0            = 96 区块
 
 # Sky settings
 
+screen.sun_moon                        = 日/月
 option.VANILLA_SUN                     = 原版太阳
 option.MOON_TYPE                       = 月亮风格
 option.SUN_ANGULAR_RADIUS              = 太阳半径
 option.MOON_ANGULAR_RADIUS             = 月亮半径
 option.SUN_LUMINANCE                   = 太阳贴图亮度
+option.MOON_LUMINANCE                  = 月亮贴图亮度
+option.BLACK_NIGHT_SKY                 = 黑色天空
 option.SKY_GROUND                      = 蓝色星球
 option.SKY_GROUND.comment              = 地平线以下的天空将显示为深蓝色，如同一个蓝色行星的表面.
 option.ATMOSPHERE_SATURATION_BOOST     = 动态照明饱和度
@@ -326,7 +349,6 @@ option.STARS_INTENSITY                 = 星星强度
 option.STARS_INTENSITY.comment         = 调节夜空中星星的亮度.
 option.STARS_COVERAGE                  = 星星覆盖率
 option.STARS_COVERAGE.comment          = 调节夜空中星星的数量.
-
 
 value.MOON_TYPE.MOON_VANILLA           = 原版
 value.MOON_TYPE.MOON_PHOTON            = Photon
@@ -522,6 +544,8 @@ option.CLOUDS_CIRROCUMULUS_DETAIL_STRENGTH = 卷积云细节强度
 option.CLOUDS_CIRROCUMULUS_CURL_STRENGTH   = 卷积云卷曲强度
 
 option.CLOUDS_NOCTILUCENT              = 夜光云
+option.CLOUDS_NOCTILUCENT_INTENSITY    = 夜光云强度
+option.CLOUDS_NOCTILUCENT_RARITY       = 稀有度
 
 option.BLOCKY_CLOUDS                   = 方块云层
 option.BLOCKY_CLOUDS.comment           = 原版风格体积云层. 启用本选项会禁用其他所有类型的云层.
@@ -741,6 +765,7 @@ option.BLOOMY_FOG                      = 泛光雾
 option.BLOOMY_FOG.comment              = 雾气的强烈泛光. 使得明亮事物发出的光像是在雾气中散射, 并且照亮后方区域. 几乎没有性能消耗.
 option.BLOOMY_FOG_INTENSITY            = 泛光雾强度
 option.BLOOMY_FOG_INTENSITY.comment    = 调节泛光雾的强度.
+option.OVERWORLD_FOG_INTENSITY         = 主世界雾气强度
 option.CAVE_FOG_INTENSITY              = 洞穴雾强度
 option.NETHER_FOG_INTENSITY            = 下界雾强度
 option.END_FOG_INTENSITY               = 末地雾强度
