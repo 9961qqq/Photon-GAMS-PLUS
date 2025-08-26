@@ -6,6 +6,17 @@
 
 ![Screenshot](docs/images/a.png)
 
+## 个人修改的photon-GAMS版本（同步了一些自己喜欢的photon正式版的更新内容）
+* 个人版本特色
+  * 彩虹🌈
+  * 流星的更多设置  
+  * 增加了镜头光晕
+  * ~~增加了雨水镜头效果（渣机太卡了，删了，后续可能会重新加）~~
+  * 同步一些photon正式版的优化代码
+  * 部分奇奇怪怪的bug（本人能力有限，只会Ctrl+C，Ctrl+V）
+
+  * 个人使用的配置在Photon-GAMS-main.zip.txt文件里面，使用教程参考视频https://www.bilibili.com/video/BV1ok4y1K7k9/
+
 ## Acknowledgments
 
 * Menu translations: 
@@ -18,60 +29,3 @@
 * [Sledgehammer Games](https://www.sledgehammergames.com/) - Bloom downsampling method used in Call of Duty Advanced Warfare (described [here](http://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare))
 * http://momentsingraphics.de/ - Blue noise texture
 * [NASA Scientific Visualization Studio](https://svs.gsfc.nasa.gov/4851) - Galaxy image
-
-
-## Installation
-
-* [Download on Modrinth](https://modrinth.com/shader/photon-shader/versions) (recommended)
-* [Download latest stable commit](https://github.com/sixthsurge/photon/archive/refs/heads/main.zip)
-* [Download latest dev commit](https://github.com/sixthsurge/photon/archive/refs/heads/dev.zip)
-
-* Photon can be used with [Iris](https://irisshaders.dev/download) (recommended) or [OptiFine](https://optifine.net/home)
-* Iris is a modern shader loader with far better performance, mod compatibility and developer features than OptiFine. Some features (Colored Lighting) will only work on Iris
-* Once you have your preferred shader loader installed, simply place the downloaded zip file in your `.minecraft/shaderpacks` folder
-
-## Features
-* Fully revamped sky, lighting and water with a cohesive visual style
-* Immersive weather system with different skies each day, featuring multiple volumetric cloud layers
-* [Colored lighting](https://cdn.discordapp.com/attachments/736930818835873813/1123586429902135338/2023-06-28_13.02.33.png?ex=65f197e8&is=65df22e8&hm=c7871d2d3a5af5f6c84d98ad9997e4f4e1cfff40d3d9539b03e471abf48f677c&) using a voxel flood-fill algorithm (enabled with Ultra profile, requires Iris)
-* Full labPBR resource pack support
-* Extensive settings menu allowing you to customize every aspect of the shader
-* Screen-space reflections
-* Volumetric lighting
-* Soft shadows with variable penumbra size
-* Ground Truth-based Ambient occlusion (GTAO)
-* Camera effects: bloom, depth of field, motion blur
-* Much improved image quality with TAA, FXAA and CAS
-* Advanced temporal upscaling (disabled by default) for low end devices
-
-## Compatibility
-* Nvidia, AMD and Intel GPUs
-* Iris - version 1.5 and above
-* OptiFine - on Minecraft 1.16.5 and above
-* Photon is also compatible with [Distant Horizons](https://www.curseforge.com/minecraft/mc-mods/distant-horizons) 
-* Mac OS: Disable _SH Skylight_ and _Colored Shadows_
-
-## Showcase videos
-
-<div align = "center">
-	<a href="http://www.youtube.com/watch?feature=player_embedded&v=vxE_CVeU8Rs" target="_blank"><img src="http://img.youtube.com/vi/vxE_CVeU8Rs/0.jpg" border="0"/></a>
-	<p> by iambeen
-	<br><br>
-</div>
-
-<div align = "center">
-	<a href="http://www.youtube.com/watch?feature=player_embedded&v=gMLFZMBK-ZQ" target="_blank"><img src="http://img.youtube.com/vi/gMLFZMBK-ZQ/0.jpg" border="0"/></a>
-	<p> by CosmicNexus
-	<br><br>
-</div>
-
-<div align = "center">
-	<a href="http://www.youtube.com/watch?feature=player_embedded&v=_aSmM7jg9Nw" target="_blank"><img src="http://img.youtube.com/vi/_aSmM7jg9Nw/0.jpg" border="0"/></a>
-	<p> by VIPUL
-	<br><br>
-</div>
-
-## Community
-
-- For questions, suggestions and news regarding this shader pack, head to my [discord server](https://discord.gg/ngEW66HScd)
-- You can also [give me money](https://ko-fi.com/sixthsurge) if you want to 
