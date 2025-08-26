@@ -16,6 +16,7 @@
   * 部分奇奇怪怪的bug（本人能力有限，只会Ctrl+C，Ctrl+V）
 
   * 个人使用的配置在Photon-GAMS-main.zip.txt文件里面，使用教程参考视频https://www.bilibili.com/video/BV1ok4y1K7k9/
+  * 下载地址https://github.com/9961qqq/Photon-GAMS-PLUS/releases/tag/dev
 
 ## Acknowledgments
 
