@@ -221,7 +221,7 @@ vec3 calculate_shadows(
 			mix(
 				1.0, 0.55, 
 				linear_step(0.33, 0.8, light_dir.y)
-			) * length_squared(scene_pos.xz) * rcp(shadowDistance * shadowDistance)
+			) * length_squared(scene_pos.xyz) * rcp(shadowDistance * shadowDistance)
 		)
 	);
 

@@ -256,6 +256,7 @@ vec3 draw_sky(vec3 ray_dir) {
 
 #include "/include/misc/end_lighting_fix.glsl"
 #include "/include/sky/atmosphere.glsl"
+#include "/include/sky/stars.glsl"
 
 const float sun_solid_angle = cone_angle_to_solid_angle(sun_angular_radius);
 const vec3 end_sun_color = vec3(END_SOLAR_FLARE_COLOR_R, END_SOLAR_FLARE_COLOR_G, END_SOLAR_FLARE_COLOR_B);

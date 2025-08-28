@@ -134,10 +134,10 @@ const bool colortex11MipmapEnabled = true;
 #include "/include/utility/encoding.glsl"
 #include "/include/utility/fast_math.glsl"
 #include "/include/utility/space_conversion.glsl"
+#include "/include/sky/rainbow.glsl"
 
 #ifdef WORLD_OVERWORLD
 #include "/include/fog/overworld/analytic.glsl"
-#include "/include/sky/rainbow.glsl"
 #endif
 
 #ifdef DISTANT_HORIZONS

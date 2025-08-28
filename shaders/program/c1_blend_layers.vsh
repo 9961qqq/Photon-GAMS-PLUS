@@ -77,9 +77,6 @@ void main() {
 #endif
 
 #if defined WORLD_OVERWORLD
-	Weather weather = get_weather();
-
-	#if defined WORLD_OVERWORLD
 	air_fog_coeff = calculate_air_fog_coefficients();
 #endif
 
