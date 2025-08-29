@@ -362,10 +362,6 @@ void main() {
 				: back_position_world;
 		}
 	}
-
-	// if (dh_translucent_behind_mc_translucent) {
-	// 	fragment_color = fragment_color * (1.0 - translucent_color.a) + translucent_color.rgb;
-	// }
 #endif
 
 	// Blend layers
