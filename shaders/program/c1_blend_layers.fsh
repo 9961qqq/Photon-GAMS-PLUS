@@ -282,14 +282,6 @@ void main() {
 	fragment_color = texture(colortex0, refracted_uv * taau_render_scale).rgb;
 	vec3 original_color = fragment_color;
 
-// Apply rainbows
-// #if defined WORLD_OVERWORLD && defined RAINBOWS
-	// fragment_color = draw_rainbows(
-			// 	fragment_color, 
-			// 	direction_world, 
-			// 	min(is_sky ? 1e6 : view_distance, mix(clouds_apparent_distance, 1e6, linear_step(1.0, 0.95, clouds_and_aurora.w)))
-	// );
-// #endif
 	// Draw DH water
 
 	if (wetness > eps && biome_may_rain > eps) {

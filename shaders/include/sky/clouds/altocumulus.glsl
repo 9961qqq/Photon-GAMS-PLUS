@@ -265,7 +265,7 @@ CloudsResult draw_altocumulus_clouds(
 	// Remap the transmittance so that min_transmittance is 0
 	float clouds_transmittance = linear_step(min_transmittance, 1.0, transmittance);
 
-	vec3 clouds_scattering = scattering.x * light_color + scattering.y * sky_color * 1.41;
+	vec3 clouds_scattering = scattering.x * light_color + scattering.y * sky_color;
 	if (distance_to_terrain < 0.0) clouds_scattering = clouds_aerial_perspective(clouds_scattering, clouds_transmittance, air_viewer_pos, ray_origin, ray_dir, clear_sky);
 
 	float apparent_distance = (distance_weight_sum == 0.0)

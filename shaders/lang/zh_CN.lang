@@ -126,7 +126,7 @@ value.INFO.1                           = §a作者: 9961QAQ
 value.INFO.2                           = §b作者: 9961QAQ
 value.INFO.3                           = §d作者: 9961QAQ
 value.INFO.4                           = §f作者: 9961QAQ
-option.INFO.comment                    = 原光影作者：§bSixthSurge§r. 修改版作者 §aSW-52 §c-Daytendo64- §dOUdefie17 §eArona74 §fMiclus
+option.INFO.comment                    = 原光影作者：§bSixthSurge§r. 修改版作者 §aSW-52 §c-Daytendo64- §dOUdefie17 §eArona74 §fMiclus §gkidofcubes
 
 # World settings
 
@@ -349,6 +349,8 @@ option.STARS_INTENSITY                 = 星星强度
 option.STARS_INTENSITY.comment         = 调节夜空中星星的亮度.
 option.STARS_COVERAGE                  = 星星覆盖率
 option.STARS_COVERAGE.comment          = 调节夜空中星星的数量.
+option.STARS_SHARP                     = §6✨§r 方型星星
+option.STARS_SHARP.comment             = 使星星表现为锐利的方形
 
 value.MOON_TYPE.MOON_VANILLA           = 原版
 value.MOON_TYPE.MOON_PHOTON            = Photon
