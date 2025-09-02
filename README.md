@@ -8,13 +8,12 @@
 
 ## 个人修改的photon-GAMS版本（同步了一些自己喜欢的photon正式版的更新内容）
 * 个人版本特色
-  * 彩虹🌈
-  * 流星的更多设置  
+  * 更多流星的设置项，方型星星
   * 增加了镜头光晕
-  * ~~增加了雨水镜头效果（渣机太卡了，删了，后续可能会重新加）~~
-  * 同步一些photon正式版的优化代码
+  * 同步一些photon正式版的效果：水波，地狱门边缘发光，彩虹🌈，同步photon正式版优化代码
+  * 修复原GAMS的bug：旗帜只显示白色bug，篝火烤食物不显示bug，雨水坑出现在水底以及室内bug
   * 部分奇奇怪怪的bug（本人能力有限，只会Ctrl+C，Ctrl+V）
-
+  * ~~增加了雨水镜头效果（渣机太卡了，删了，后续可能会重新加）~~
   * 个人使用的配置在Photon-GAMS-main.zip.txt文件里面，使用教程参考视频https://www.bilibili.com/video/BV1ok4y1K7k9/
   * 下载地址https://github.com/9961qqq/Photon-GAMS-PLUS/releases/tag/dev
 
