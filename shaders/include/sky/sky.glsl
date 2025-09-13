@@ -21,7 +21,7 @@
 #include "/include/sky/shooting_stars.glsl"
 #include "/include/sky/nebula.glsl"
 
-const float sun_luminance  = SUN_LUMINANCE * SUN_I; // luminance of sun disk
+const float sun_luminance  = SUN_LUMINANCE; // luminance of sun disk
 const float moon_luminance = MOON_LUMINANCE * MOON_I; // luminance of moon disk
 
 vec3 draw_sun(vec3 ray_dir) {

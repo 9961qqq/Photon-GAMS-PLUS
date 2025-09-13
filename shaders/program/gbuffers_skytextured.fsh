@@ -36,8 +36,8 @@ uniform vec3 view_sun_dir;
 #include "/include/sky/atmosphere.glsl"
 #include "/include/utility/color.glsl"
 
-const float vanilla_sun_luminance = SUN_LUMINANCE * SUN_I; 
-const float moon_luminance = MOON_LUMINANCE * MOON_I; 
+const float vanilla_sun_luminance = SUN_LUMINANCE; 
+const float moon_luminance = MOON_LUMINANCE; 
 
 void main() {
 	vec2 new_uv = uv;

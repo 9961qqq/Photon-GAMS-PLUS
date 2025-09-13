@@ -529,9 +529,6 @@ void main() {
 #ifdef SPECULAR_MAPPING
 		decode_specular_map(specular_map, material);
 #endif
-
-
-		fragment_color.a = sqrt(fragment_color.a);
 	}
 
 #if defined (PHYSICS_MOD_OCEAN) && defined (PHYSICS_OCEAN)
