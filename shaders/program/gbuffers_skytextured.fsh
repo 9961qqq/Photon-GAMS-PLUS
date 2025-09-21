@@ -58,8 +58,8 @@ void main() {
 		// Minecraft 1.21.4
 
 		// Cut out the sun itself (discard the halo around it)
-		offset = uv * 2.0 - 1.0;
 		if (max_of(abs(offset)) > 0.25) discard;
+		offset = uv * 2.0 - 1.0;
 
 #ifdef VANILLA_SUN
 		frag_color  = texture(gtexture, new_uv).rgb;
