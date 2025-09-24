@@ -63,8 +63,9 @@ vec2 render_cloud_shadow_map(vec2 uv) {
 
 	vec3 pos; float t, density, extinction_coeff;
 	float shadow = 1.0;
+	float shadow_cumulus_only = 1.0;	
 	float distance_fade;
-	float distance_fade_strength = 0.00000001 * pulse(light_dir.y, -0.01, 0.2);
+	float distance_fade_strength = 0.0001 * pulse(light_dir.y, -0.01, 0.2);
 
 #ifdef CLOUDS_CUMULUS
 	float dynamic_thickness  = mix(
@@ -80,8 +81,7 @@ vec2 render_cloud_shadow_map(vec2 uv) {
 	pos = ray_origin + light_dir * t;
 	distance_fade = exp2(distance_fade_strength * length(pos.xy));
 	density = clouds_cumulus_density(pos, detail_weights, edge_sharpening, dynamic_thickness);
-	shadow *= exp(-1.00 * distance_fade * extinction_coeff * clouds_cumulus_thickness * rcp(abs(light_dir.y) + eps) * density);
-	float shadow_cumulus_only = shadow;
+	shadow *= exp(-0.50 * distance_fade * extinction_coeff * clouds_cumulus_thickness * rcp(abs(light_dir.y) + eps) * density);
 	shadow_cumulus_only = shadow;
 #endif
 
@@ -91,7 +91,7 @@ vec2 render_cloud_shadow_map(vec2 uv) {
 	pos = ray_origin + light_dir * t;
 	distance_fade = exp2(distance_fade_strength * length(pos.xy));
 	density = clouds_altocumulus_density(pos);
-	shadow *= exp(-1.00 * distance_fade * extinction_coeff * clouds_altocumulus_thickness * rcp(abs(light_dir.y) + eps) * density);
+	shadow *= exp(-0.50 * distance_fade * extinction_coeff * clouds_altocumulus_thickness * rcp(abs(light_dir.y) + eps) * density);
 #endif
 
 #ifdef CLOUDS_CIRRUS
@@ -99,7 +99,7 @@ vec2 render_cloud_shadow_map(vec2 uv) {
 	pos = ray_origin + light_dir * t;
 	distance_fade = exp2(distance_fade_strength * length(pos.xy));
 	density = clouds_cirrus_density(pos.xz, 0.5);
-	shadow *= exp(-1.00 * distance_fade * clouds_cirrus_extinction_coeff * clouds_cirrus_thickness * rcp(abs(light_dir.y) + eps) * density) * 0.5 + 0.5;
+	shadow *= exp(-0.25 * distance_fade * clouds_cirrus_extinction_coeff * clouds_cirrus_thickness * rcp(abs(light_dir.y) + eps) * density) * 0.5 + 0.5;
 #endif
 
 	return vec2(shadow, shadow_cumulus_only);
