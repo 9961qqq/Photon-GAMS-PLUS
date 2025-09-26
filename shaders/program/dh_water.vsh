@@ -30,7 +30,6 @@ flat out AirFogCoefficients air_fog_coeff;
 // ------------
 
 uniform sampler2D colortex4; // Sky map, lighting colors
-uniform sampler2D colortex9; // Sky SH
 
 uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
@@ -101,7 +100,7 @@ void main() {
     normal        = mat3(gbufferModelViewInverse) * (mat3(gl_ModelViewMatrix) * gl_Normal);
 	light_color   = texelFetch(colortex4, ivec2(191, 0), 0).rgb;
 #if defined WORLD_OVERWORLD && defined SH_SKYLIGHT
-	ambient_color = texelFetch(colortex9, ivec2(9, 0), 0).rgb;
+	ambient_color = texelFetch(colortex4, ivec2(191, 11), 0).rgb;
 #else	
 	ambient_color = texelFetch(colortex4, ivec2(191, 1), 0).rgb;
 #endif
