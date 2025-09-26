@@ -158,6 +158,11 @@ option.END_GLOW                        = 末地光雾
 option.END_GLOW.comment                = 在末地维度摇曳的光雾效果. 需要启用体积光.
 option.END_GLOW_INTENSITY              = 末地光雾强度
 option.END_GLOW_INTENSITY.comment      = 调节末地维度的光雾强度. 更高的数值将使光雾更加耀眼.
+option.PLAYER_DISPLACEMENT             = 挤开周围植物
+screen.player_displacement             = 挤开周围植物设置
+option.PLAYER_DISPLACEMENT.comment     = 玩家在移动时使附近的植物发生位移
+option.PLAYER_DISPLACEMENT_PLANTS_STRENGTH = 植物位移强度效果
+option.PLAYER_DISPLACEMENT_LEAVES_STRENGTH = 树叶位移强度效果
 
 # 世界曲率设定
 

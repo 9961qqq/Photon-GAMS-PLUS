@@ -69,12 +69,16 @@ vec3 animate_vertex(vec3 world_pos, bool is_top_vertex, float skylight, uint mat
 	float wind_speed = 0.3;
 	float wind_strength = sqr(skylight) * (0.25 + 0.66 * rainStrength);
 
-	// Displace plants close to the player
+	// Displace plants/leaves close to the player
+#ifdef PLAYER_DISPLACEMENT
 	vec3 to_player = eyePosition - world_pos;
 	vec3 player_displacement = vec3(
 		-6.0 * to_player.xz * exp2(-length(to_player * vec3(6.0, 2.0, 6.0))),
 		0.0
 	).xzy;
+#else
+	vec3 player_displacement = vec3(0.0, 0.0, 0.0);
+#endif
 
 	switch (material_mask) {
 #ifdef WATER_DISPLACEMENT
@@ -85,44 +89,44 @@ vec3 animate_vertex(vec3 world_pos, bool is_top_vertex, float skylight, uint mat
 
 #ifdef WAVING_PLANTS
 	case 2:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 
 	case 3:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 
 	case 4:
 		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, is_top_vertex) + player_displacement);
 
 	//Glowing Flowers
 	case 192:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 65:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 66:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 69:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 70:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 71:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 72:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 73:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 74:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 75:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 76:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 	case 77:
-		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement) * float(is_top_vertex);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength, false) + player_displacement * PLAYER_DISPLACEMENT_PLANTS_STRENGTH) * float(is_top_vertex);
 #endif
 
 #ifdef WAVING_LEAVES
 	case 5:
-		return world_pos + get_wind_displacement(world_pos, wind_speed, wind_strength * 0.5, false);
+		return world_pos + (get_wind_displacement(world_pos, wind_speed, wind_strength * 0.5, false) + player_displacement * PLAYER_DISPLACEMENT_LEAVES_STRENGTH);
 #endif
 
 	default:
