@@ -233,6 +233,21 @@ vec3 project_ortho(mat4 m, vec3 pos) {
     return diagonal(m).xyz * pos + m[3].xyz;
 }
 
+// Hand 
+
+void fix_hand_depth(inout float depth, out bool is_hand) {
+	is_hand = depth < hand_depth; // NB: Not the same as mc_hand_depth
+	if (is_hand) {
+		depth  = depth * 2.0 - 1.0;
+		depth *= rcp(MC_HAND_DEPTH);
+		depth  = depth * 0.5 + 0.5;
+	}
+}
+void fix_hand_depth(inout float depth) {
+	bool unused;
+	fix_hand_depth(depth, unused);
+}
+
 #define cartesian_to_polar(a) vec2(length(a), atan(a.y, a.x))
 
 #define polar_to_cartesian(polar) (polar.x * vec2(cos(polar.y), sin(polar.y)))
