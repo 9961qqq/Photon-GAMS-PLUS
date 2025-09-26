@@ -230,10 +230,12 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 	// Nebula
 	sky = draw_nebula(ray_dir, sky);
 
+#if !defined PROGRAM_DEFERRED0
 	// Fade lower part of sky into cave fog color when underground so that the sky isn't visible
 	// beyond the render distance
 	float underground_sky_fade = biome_cave * smoothstep(-0.1, 0.1, 0.4 - ray_dir.y);
 	sky = mix(sky, vec3(0.0), underground_sky_fade);
+#endif
 
 	return sky;
 }

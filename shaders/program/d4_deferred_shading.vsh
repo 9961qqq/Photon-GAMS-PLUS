@@ -36,6 +36,7 @@ flat out vec3 skylight_up;
 uniform sampler3D depthtex0; // Atmosphere scattering LUT
 
 uniform sampler2D colortex4; // Sky map, lighting colors
+uniform sampler2D colortex9; // Skylight SH
 
 uniform int worldTime;
 uniform int worldDay;
@@ -106,23 +107,17 @@ void main() {
 	air_fog_coeff = calculate_air_fog_coefficients();
 
 	#ifdef SH_SKYLIGHT
-	// Initialize SH to 0
-	for (uint band = 0; band < 9; ++band) sky_sh[band] = vec3(0.0);
-
-	// Sample into SH
-	const uint step_count = 256;
-	for (uint i = 0; i < step_count; ++i) {
-		vec3 direction = uniform_hemisphere_sample(vec3(0.0, 1.0, 0.0), r2(int(i)));
-		vec3 radiance  = texture(colortex4, project_sky(direction)).rgb;
-		float[9] coeff = sh_coeff_order_2(direction);
-
-		for (uint band = 0; band < 9; ++band) sky_sh[band] += radiance * coeff[band];
-	}
-
-	// Apply skylight boost and normalize SH
-	const float step_solid_angle = tau / float(step_count);
-	float skylight_mul = get_skylight_boost() * step_solid_angle;
-	for (uint band = 0; band < 9; ++band) sky_sh[band] *= skylight_mul;
+	// Sample sky SH
+	sky_sh[0]   = texelFetch(colortex9, ivec2(0, 0), 0).rgb;
+	sky_sh[1]   = texelFetch(colortex9, ivec2(1, 0), 0).rgb;
+	sky_sh[2]   = texelFetch(colortex9, ivec2(2, 0), 0).rgb;
+	sky_sh[3]   = texelFetch(colortex9, ivec2(3, 0), 0).rgb;
+	sky_sh[4]   = texelFetch(colortex9, ivec2(4, 0), 0).rgb;
+	sky_sh[5]   = texelFetch(colortex9, ivec2(5, 0), 0).rgb;
+	sky_sh[6]   = texelFetch(colortex9, ivec2(6, 0), 0).rgb;
+	sky_sh[7]   = texelFetch(colortex9, ivec2(7, 0), 0).rgb;
+	sky_sh[8]   = texelFetch(colortex9, ivec2(8, 0), 0).rgb;
+	skylight_up = texelFetch(colortex9, ivec2(9, 0), 0).rgb;
 	#endif
 #endif
 
