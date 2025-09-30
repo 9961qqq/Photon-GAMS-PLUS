@@ -1,18 +1,18 @@
 #if !defined INCLUDE_VERTEX_DISPLACEMENT
 #define INCLUDE_VERTEX_DISPLACEMENT
 
-#if !defined PROGRAM_GBUFFERS_TERRAIN && !defined PROGRAM_SHADOW
+#if !defined PROGRAM_GBUFFERS_TERRAIN && !(defined PROGRAM_SHADOW_FALLBACK || defined PROGRAM_SHADOW_SOLID || defined PROGRAM_SHADOW_CUTOUT)
 	#undef WAVING_PLANTS
 	#undef WAVING_LEAVES
 #endif
 
-#if !defined PROGRAM_GBUFFERS_WATER && !defined PROGRAM_SHADOW
+#if !defined PROGRAM_GBUFFERS_WATER && !(defined PROGRAM_SHADOW_FALLBACK || defined PROGRAM_SHADOW_WATER)
 	#undef WATER_DISPLACEMENT
 #endif
 
-#ifdef IS_IRIS
+#ifdef IS_IRIS 
 uniform vec3 eyePosition;
-#else
+#else 
 #define eyePosition cameraPosition
 #endif
 
@@ -38,7 +38,7 @@ float get_water_displacement(vec3 world_pos, float skylight) {
 	const vec2  wave_dir       = vec2(cos(wave_angle), sin(wave_angle));
 
 	float wave = gerstner_wave(world_pos.xy * wave_frequency, wave_dir, frameTimeCounter * wave_speed, 0.0, wavelength);
-		  wave = (wave * 0.05 - 0.025) * (skylight * 0.9 + 0.1);
+	      wave = (wave * 0.05 - 0.025) * (skylight * 0.9 + 0.1);
 
 	return wave;
 }
@@ -52,7 +52,7 @@ vec3 get_wind_displacement(vec3 world_pos, float wind_speed, float wind_strength
 	float t = wind_speed * frameTimeCounter;
 
 	float gust_amount  = texture(noisetex, 0.05 * (world_pos.xz + wind_dir * t)).y;
-		  gust_amount *= gust_amount;
+	      gust_amount *= gust_amount;
 
 	vec3 gust = vec3(wind_dir * gust_amount, 0.1 * gust_amount).xzy;
 
