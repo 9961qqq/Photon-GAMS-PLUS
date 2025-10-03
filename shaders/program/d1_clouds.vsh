@@ -29,6 +29,7 @@ flat out DailyWeatherVariation daily_weather_variation;
 uniform sampler3D depthtex0; // atmospheric scattering LUT
 
 uniform int worldTime;
+uniform int moonPhase;
 uniform int worldDay;
 uniform float sunAngle;
 

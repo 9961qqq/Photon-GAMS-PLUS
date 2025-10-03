@@ -88,6 +88,7 @@ uniform float frameTimeCounter;
 
 uniform int isEyeInWater;
 uniform int worldTime;
+uniform int moonPhase;
 uniform int frameCounter;
 
 uniform float world_age;

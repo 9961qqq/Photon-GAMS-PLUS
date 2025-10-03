@@ -2,7 +2,6 @@
 #define INCLUDE_LIGHTING_DIFFUSE_LIGHTING
 
 #include "/include/lighting/colors/blocklight_color.glsl"
-#include "/include/lighting/colors/skylight_approx.glsl"
 #include "/include/lighting/bsdf.glsl"
 #include "/include/misc/end_lighting_fix.glsl"
 #include "/include/misc/material.glsl"

@@ -27,6 +27,7 @@ flat in vec3 moon_color;
 // ------------
 
 uniform sampler2D gtexture;
+uniform sampler2D noisetex;
 
 uniform int moonPhase;
 uniform int renderStage;
@@ -104,9 +105,11 @@ void main() {
 		offset = rot * offset;
 
 		float dist = length(offset);
-		float moon = 1.0 - linear_step(0.85, 1.0, dist);
 		float moon_shadow = 1.0;
 		float a = sqrt(1.0 - offset.x * offset.x);
+
+		vec3 noise = texture(noisetex, 0.93 * fract(vec2(4.0, 2.0) * uv)).xyz;
+		float moon_texture = pow1d5(noise.x) * 0.75 + 0.6 * cube(noise.y) - 0.1 * noise.z;
 
 		switch (moonPhase) {
 		case 0: // Full moon
@@ -134,12 +137,14 @@ void main() {
 			moon_shadow = 1.0 - linear_step(a * 0.6 - 0.12, a * 0.6 + 0.12, offset.y); break;
 		}
 
-		frag_color = max(
-			moon * moon_shadow * lit_color,
-			(0.1 * glow_color) * pulse(dist, 0.95, 0.3) // Moon glow
-		);
+		float edge_glow = sqr(sqr(sqr(dist)));
 
-		if (dist > 1.3) {
+		frag_color = max(
+			moon_shadow * lit_color * (1.5 + 1.5 * edge_glow),
+			glow_color * (0.1 + 0.06 * edge_glow)
+		) * (0.5 + 0.5 * moon_texture);
+
+		if (dist > 1.0) {
 			discard;
 		}
 #endif

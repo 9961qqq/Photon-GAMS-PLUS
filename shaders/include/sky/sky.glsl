@@ -213,15 +213,6 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 	sky *= clouds.a;   // transmittance
 	sky += clouds.rgb; // scattering
 
-	//Apply rainbows
-// #if defined WORLD_OVERWORLD && defined RAINBOWS
-// 	sky = draw_rainbows(
-// 			sky, 
-// 			ray_dir, 
-// 			1e6
-// 	);
-// #endif	
-
 	// Shooting stars
 #if defined SHOOTING_STARS && !defined PROGRAM_DEFERRED0
 	sky = DrawShootingStars(sky, ray_dir);

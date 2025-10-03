@@ -40,6 +40,7 @@ uniform float rainStrength;
 uniform float wetness;
 
 uniform int worldTime;
+uniform int moonPhase;
 uniform int worldDay;
 uniform float sunAngle;
 

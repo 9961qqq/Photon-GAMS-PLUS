@@ -29,6 +29,7 @@ flat out vec3 light_dir_fixed;
 // ------------
 
 uniform int worldTime;
+uniform int moonPhase;
 uniform int worldDay;
 
 uniform float rainStrength;
