@@ -186,7 +186,7 @@ vec3 get_diffuse_lighting(
 	skylight = 16.0 * directional_lighting * mix(skylight, vec3(dot(skylight, luminance_weights_rec2020)), 0.5);
 #endif
 
-	skylight += vec3(0.16);
+	skylight = max(skylight, vec3(0.18));
 	lighting += skylight * get_skylight_falloff(light_levels.y) * SKYLIGHT_I;
 
 	// Blocklight
