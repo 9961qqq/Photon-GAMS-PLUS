@@ -23,7 +23,7 @@ void water_waves_setup(
 	out float t
 ) {
 	const float wave_speed_still   = 0.5 * WATER_WAVE_SPEED_STILL;
-	const float wave_speed_flowing = 0.50 * WATER_WAVE_SPEED_FLOWING;
+	const float wave_speed_flowing = 0.7 * WATER_WAVE_SPEED_FLOWING;
 	const float wave_angle         = WATER_WAVE_ANGLE * degree;
 
 	t = (flowing_water ? wave_speed_flowing : wave_speed_still) * frameTimeCounter;
@@ -105,12 +105,11 @@ vec3 get_water_normal(vec3 world_pos, vec3 flat_normal, vec2 coord, vec2 flow_di
 
 #if defined WORLD_OVERWORLD
 	float normal_influence  = flowing_water
-		? 0.05
+		? 0.1
 		: mix(0.01, 0.04 + 0.15 * rainStrength, dampen(skylight));
 #else
 	float normal_influence  = 0.04;
 #endif
-	      normal_influence *= smoothstep(0.0, 0.05, abs(flat_normal.y));
 	      normal_influence *= smoothstep(0.0, 0.15, abs(dot(flat_normal, normalize(world_pos - cameraPosition)))); // prevent noise when looking horizontally
 	      normal_influence *= WATER_WAVE_STRENGTH;
 
