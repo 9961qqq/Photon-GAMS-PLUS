@@ -104,10 +104,6 @@ uniform float biome_humidity;
 #include "/include/sky/atmosphere.glsl"
 #include "/include/sky/aurora.glsl"
 #include "/include/sky/clouds.glsl"
-
-#if defined CREPUSCULAR_RAYS && !defined BLOCKY_CLOUDS
-#include "/include/sky/crepuscular_rays.glsl"
-#endif
 #endif
 
 #include "/include/misc/distant_horizons.glsl"
@@ -187,14 +183,6 @@ void main() {
 	clouds        = vec4(0.0, 0.0, 0.0, 1.0);
 	clouds_data.x = 1e6;
 	clouds_data.y = 0.0;
-#endif
-
-	// Crepuscular rays 
-
-#if defined CREPUSCULAR_RAYS && !defined BLOCKY_CLOUDS
-	vec4 crepuscular_rays = draw_crepuscular_rays(colortex8, ray_dir, dither);
-	clouds *= crepuscular_rays.w;
-	clouds.rgb += crepuscular_rays.xyz;
 #endif
 
 	// Aurora
