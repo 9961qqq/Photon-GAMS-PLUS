@@ -14,6 +14,18 @@
 #define SHADOW_PCF_STEPS_SCALE       1.0 // [0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0]
 #define SHADOW_BLOCKER_SEARCH_RADIUS 0.5 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]
 
+const ivec2[9] blur_kernel_offsets_3x3 = ivec2[9](
+    ivec2(-1, -1),
+    ivec2(0, -1),
+    ivec2(1, -1),
+    ivec2(-1, 0),
+    ivec2(0, 0),
+    ivec2(1, 0),
+    ivec2(-1, 1),
+    ivec2(0, 1),
+    ivec2(1, 1)
+);
+
 const int shadow_map_res = int(float(shadowMapResolution) * MC_SHADOW_QUALITY);
 const float shadow_map_pixel_size = rcp(float(shadow_map_res));
 
@@ -100,7 +112,15 @@ vec3 shadow_basic(vec3 shadow_screen_pos) {
 
 	float depth  = texelFetch(shadowtex0, texel, 0).x;
 	vec3  color  = texelFetch(shadowcolor0, texel, 0).rgb * 4.0;
-	float weight = step(depth, shadow_screen_pos.z) * step(eps, max_of(color));
+    float weight = step(depth, shadow_screen_pos.z);
+
+    vec3 averageColor = vec3(0.0);
+    for (int i = 0; i < 9; ++i) {
+        averageColor += texelFetch(shadowcolor0, texel + blur_kernel_offsets_3x3[i], 0).rgb;
+    }
+    // hide sunlight seams between colored shadow and opaque shadows
+    weight *= step(eps, max_of(averageColor));
+
 
 	color = color * weight + (1.0 - weight);
 
