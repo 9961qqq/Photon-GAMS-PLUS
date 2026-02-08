@@ -35,6 +35,58 @@ vec3 draw_sun(vec3 ray_dir) {
 	return sun_luminance * sun_color * step(0.0, center_to_edge) * limb_darkening;
 }
 
+vec4 draw_moon(vec3 ray_dir){
+		// Shader moon
+	const float angle      = 0.7;
+	const mat2  rot        = mat2(cos(angle), sin(angle), -sin(angle), cos(angle));
+
+ 	const vec3  lit_color  = vec3(MOON_R, MOON_G <= 0.03 ? 0.0 : MOON_G - 0.03, MOON_B);
+	const vec3  glow_color = vec3(MOON_R <= 0.05 ? 0.0 : MOON_R - 0.05, MOON_G, MOON_B);
+
+ 	// Cut out the moon disc.
+	float MoV = dot(ray_dir, moon_dir);
+	if (MoV < cos(moon_angular_radius)) {
+		return vec4(0.0);
+	}
+
+ 	// Find distance from center to edge.
+	float dist = clamp01(fast_acos(MoV) / moon_angular_radius);
+
+ 	// Transform the coordinate space such that z is parallel to moon_dir
+	vec3 tangent = moon_dir.y == 1.0
+		? vec3(1.0, 0.0, 0.0)
+		: normalize(cross(vec3(0.0, 1.0, 0.0), moon_dir));
+	vec3 bitangent = normalize(cross(tangent, moon_dir));
+	mat3 tbn = mat3(tangent, bitangent, moon_dir);
+
+ 	// Vector from ray dir to moon dir
+	vec2 offset = ((ray_dir - sun_dir) * tbn).xy;
+    offset = fract(offset + 0.5);
+
+ 	vec3 noise = texture(noisetex, 0.93 * fract(vec2(4.0, 2.0) * uv)).xyz;
+	float moon_texture = pow1d5(noise.x) * 0.75 + 0.6 * cube(noise.y) - 0.1 * noise.z;
+
+    // Find the distance to the moon if it were 1 unit away, and its normal.
+    float moon_dist = intersect_sphere(-moon_dir, ray_dir, moon_angular_radius).x;
+    vec3 moon_normal = normalize(ray_dir * moon_dist - moon_dir);
+
+	// Get light direction which orbits around moon
+	float light_angle = 0.125 * tau * float(moonPhase);
+	vec3 left_dir = normalize(cross(vec3(0.0, 1.0, 0.0), ray_dir));
+	vec3 light_dir = cos(light_angle) * -ray_dir + sin(light_angle) * left_dir;
+    float moon_shadow = dampen(max0(dot(moon_normal, light_dir)));
+
+ 	float edge_glow = sqr(sqr(sqr(dist)));
+
+ 	vec3 color = max(
+		moon_shadow * lit_color * (1.5 + 1.5 * edge_glow),
+		glow_color * (0.1 + 0.06 * edge_glow)
+	) * (0.5 + 0.5 * moon_texture);
+
+ 	color = moon_luminance * sqr(color);
+	return vec4(color, 1.0);
+}
+
 #if defined GALAXY
 
 #if defined GALAXY_GAMS
@@ -191,12 +243,23 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 	float stars_visibility = clamp01(1.0 - dot(skytextured_output, vec3(0.33) * 256.0));
 	sky += draw_stars(celestial_dir, galaxy_luminance) * stars_visibility;
 #endif
+
+	// Nebula
+	sky = draw_nebula(ray_dir, sky);
+
 #ifdef END_SUN_EFFECT
 	#ifndef VANILLA_SUN
 		// Sun
 		sky += draw_sun(ray_dir);
 	#endif
 #endif
+#endif
+
+#ifndef VANILLA_MOON
+    // Shader moon
+    vec4 moon = draw_moon(ray_dir);
+    sky *= 1.0 - moon.a;
+    sky += moon.rgb;
 #endif
 
 	// Sky gradient
@@ -217,9 +280,6 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 #if defined SHOOTING_STARS && !defined PROGRAM_DEFERRED0
 	sky = DrawShootingStars(sky, ray_dir);
 #endif
-	
-	// Nebula
-	sky = draw_nebula(ray_dir, sky);
 
 #if !defined PROGRAM_DEFERRED0
 	// Fade lower part of sky into cave fog color when underground so that the sky isn't visible
