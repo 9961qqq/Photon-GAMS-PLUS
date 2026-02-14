@@ -52,6 +52,24 @@ const mat3x3 air_extinction_coefficients = mat3x3(air_rayleigh_coefficient, air_
 
 uniform float atmosphere_saturation_boost_amount;
 
+vec3 adjust_night_atmosphere(vec3 atmosphere, vec3 ray_dir) {
+	#ifdef BLACK_NIGHT_SKY
+	float night_factor = smoothstep(0.1, -0.1, sun_dir.y);
+	float height_fade = smoothstep(-0.1, 0.3, ray_dir.y);
+
+	float blue_hour = linear_step(0.05, 1.0, exp(-190.0 * sqr(sun_dir.y + 0.09604)));
+	vec3 blue_hour_tint = vec3(0.95, 0.80, 1.0);
+	vec3 blue_hour_sky = mix(atmosphere, atmosphere * blue_hour_tint, blue_hour);
+
+	vec3 night_sky = mix(atmosphere * 0.1, vec3(0.0), height_fade);
+	vec3 blended_sky = mix(blue_hour_sky, night_sky, night_factor);
+
+	return mix(atmosphere, blended_sky, smoothstep(0.2, -0.2, sun_dir.y));
+	#else
+	return atmosphere;
+	#endif
+}
+
 float atmosphere_mie_phase(float nu, bool use_klein_nishina_phase) {
 	return use_klein_nishina_phase
 		? klein_nishina_phase(nu, air_mie_energy_parameter)
@@ -336,8 +354,11 @@ vec3 atmosphere_scattering(
 	float mie_phase_sun  = atmosphere_mie_phase(nu_sun, use_klein_nishina_phase);
 	float mie_phase_moon = atmosphere_mie_phase_moon(nu_moon, use_klein_nishina_phase);
 
-	vec3 atmosphere = (scattering_sc + scattering_sm * mie_phase_sun)  * sun_color
-	     + (scattering_mc + scattering_mm * mie_phase_moon) * moon_color;
+	// vec3 atmosphere = (scattering_sc + scattering_sm * mie_phase_sun)  * sun_color
+	//      + (scattering_mc + scattering_mm * mie_phase_moon) * moon_color;
+	vec3 atmosphere = scattering_mc * moon_color;
+	atmosphere = adjust_night_atmosphere(atmosphere, ray_dir);
+	atmosphere = scattering_sc * sun_color + scattering_sm * mie_phase_sun * sun_color + scattering_mm * mie_phase_moon * moon_color;
 
 	return atmosphere_post_processing(atmosphere);
 }

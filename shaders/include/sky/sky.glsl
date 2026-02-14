@@ -158,24 +158,6 @@ vec3 draw_galaxy(vec3 ray_dir, out float galaxy_luminance) {
 
 #endif
 
-vec3 adjust_night_atmosphere(vec3 atmosphere, vec3 ray_dir) {
-	#ifdef BLACK_NIGHT_SKY
-	float night_factor = smoothstep(0.1, -0.1, sun_dir.y);
-	float height_fade = smoothstep(-0.1, 0.3, ray_dir.y);
-
-	float blue_hour = linear_step(0.05, 1.0, exp(-190.0 * sqr(sun_dir.y + 0.09604)));
-	vec3 blue_hour_tint = vec3(0.95, 0.80, 1.0);
-	vec3 blue_hour_sky = mix(atmosphere, atmosphere * blue_hour_tint, blue_hour);
-
-	vec3 night_sky = mix(atmosphere * 0.1, vec3(0.0), height_fade);
-	vec3 blended_sky = mix(blue_hour_sky, night_sky, night_factor);
-
-	return mix(atmosphere, blended_sky, smoothstep(0.2, -0.2, sun_dir.y));
-	#else
-	return atmosphere;
-	#endif
-}
-
 vec4 get_clouds_and_aurora(vec3 ray_dir, vec3 clear_sky) {
 #if defined PROGRAM_DEFERRED0
 	ivec2 texel   = ivec2(gl_FragCoord.xy);
@@ -263,7 +245,6 @@ vec3 draw_sky(vec3 ray_dir, vec3 atmosphere) {
 #endif
 
 	// Sky gradient
-	atmosphere = adjust_night_atmosphere(atmosphere, ray_dir);
 	sky *= atmosphere_transmittance(ray_dir.y, planet_radius) * (1.0 - rainStrength);
 	sky += atmosphere;
 
