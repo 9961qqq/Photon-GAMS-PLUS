@@ -63,7 +63,7 @@ vec4 draw_moon(vec3 ray_dir){
 	vec2 offset = ((ray_dir - sun_dir) * tbn).xy;
     offset = fract(offset + 0.5);
 
- 	vec3 noise = texture(noisetex, 0.93 * fract(vec2(4.0, 2.0) * uv)).xyz;
+ 	vec3 noise = texture(noisetex, 2.0 * offset).xyz;
 	float moon_texture = pow1d5(noise.x) * 0.75 + 0.6 * cube(noise.y) - 0.1 * noise.z;
 
     // Find the distance to the moon if it were 1 unit away, and its normal.

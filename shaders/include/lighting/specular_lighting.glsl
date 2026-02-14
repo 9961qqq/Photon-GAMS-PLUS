@@ -76,7 +76,7 @@ vec3 get_specular_highlight(
 
 #if   defined WORLD_OVERWORLD
 	const float sun_angular_radius = SUN_ANGULAR_RADIUS * degree;
-	const float moon_angular_radius = MOON_ANGULAR_RADIUS * degree;
+	const float moon_angular_radius = 3.5 * MOON_ANGULAR_RADIUS * degree;
 	float light_radius = (sunAngle < 0.5) ? sun_angular_radius : moon_angular_radius;
 
 	// No specular highlight on a new moon

@@ -15,7 +15,7 @@
 const vec3 sunlight_color = vec3(1.051, 0.985, 0.940); // Color of sunlight in space, obtained from AM0 solar irradiance spectrum from https://www.nrel.gov/grid/solar-resource/spectra-astm-e490.html using the CIE (2006) 2-deg LMS cone fundamentals
 
 const float sun_angular_radius  = SUN_ANGULAR_RADIUS * degree;
-const float moon_angular_radius = MOON_ANGULAR_RADIUS * degree;
+const float moon_angular_radius = 3.5 * MOON_ANGULAR_RADIUS * degree;
 
 const ivec2 transmittance_res = ivec2(/* mu */ 256, /* r */ 64);
 const ivec3 scattering_res    = ivec3(/* nu */ 16, /* mu */ 64, /* mu_s */ 32);
