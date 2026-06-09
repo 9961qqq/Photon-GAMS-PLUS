@@ -21,7 +21,7 @@ out vec2 uv;
 flat out mat3 white_balance_matrix;
 #endif
 
-#include "/include/post_processing/aces/utility.glsl"
+#include "/include/tonemapping/aces/utility.glsl"
 #include "/include/utility/color.glsl"
 
 void main() {
