@@ -385,6 +385,7 @@ void main() {
 				flat_normal,
 				light_levels,
 				material.porosity,
+				material_mask,
 				normal,
 				material.albedo,
 				material.f0,

@@ -45,7 +45,7 @@ vec4 draw_distant_water(
 	);
 
 	float brightness_control = 1.0 - exp(-0.33 * layer_distance);
-		  brightness_control = (1.0 - light_levels.y) + brightness_control * light_levels.y;
+		  brightness_control *= max(light_levels.x, light_levels.y);
 
 	water_color.rgb = water_fog[0] * (1.0 + 6.0 * sqr(water_fog[1])) * brightness_control * fog_visibility;
 	water_color.a   = 1.0 - water_fog[1].x;
